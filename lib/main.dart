@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_panda/shared_ui/theme/theme.dart';
 import 'package:food_panda/ui/auth/login/login_page.dart';
+import 'package:food_panda/ui/main/home/home_page.dart';
 import 'package:food_panda/ui/splash/splash_page.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class App extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       theme: appTheme,
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }

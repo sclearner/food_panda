@@ -6,6 +6,7 @@ abstract class AppColors {
   static const Color jam = Color(0xFFAC1458);
   static const Color wood = Color(0xFF5E5353);
   static const Color black = Color(0xFF000000);
+  static const Color blackOverlay = Color(0x0F000000);
   static const Color darkGray = Color(0xFF2A2A2A);
   static const Color gray = Color(0xFF5F5F5F);
   static const Color sliver = Color(0xFFC4C4C4);
