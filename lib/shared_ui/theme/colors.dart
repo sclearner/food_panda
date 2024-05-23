@@ -15,4 +15,9 @@ abstract class AppColors {
   static const Color snow = Color(0xFFFCF9F9);
   static const Color viettelRed = Color(0xFFEE0033);
   static const Color blue = Color(0xFF2B65D1);
+  static const Color water = Color(0xFF4C8DE7);
+  static const Color grass = Color(0xFF8ABE4E);
+  static const Color orange = Color(0xFFF55525);
+  static const Color sun = Color(0xFFF8A627);
+  static const Color diamond = Color(0xFF52E3C2);
 }
