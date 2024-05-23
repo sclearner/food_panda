@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:food_panda/shared_ui/theme/scheme.dart';
 
@@ -27,4 +29,19 @@ final appTheme = ThemeData(
         textStyle: MaterialStatePropertyAll(
             TextStyle(color: appColorScheme.onSurface)),
         hintStyle:
-            MaterialStatePropertyAll(TextStyle(color: appColorScheme.shadow))));
+            MaterialStatePropertyAll(TextStyle(color: appColorScheme.shadow))),
+  tabBarTheme: TabBarTheme(
+    tabAlignment: TabAlignment.start,
+    indicatorColor: Colors.transparent,
+    dividerColor: Colors.transparent,
+    labelColor: appColorScheme.onPrimary,
+    labelStyle: TextStyle(fontVariations: [FontVariation.weight(700)]),
+    unselectedLabelColor: appColorScheme.onPrimary,
+  ),
+  iconTheme: IconThemeData(
+    color: appColorScheme.onPrimary
+  ),
+  cardTheme: CardTheme(
+    elevation: 4,
+  )
+);

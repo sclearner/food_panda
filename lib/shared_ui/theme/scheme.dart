@@ -18,6 +18,8 @@ const appColorScheme = ColorScheme(
     background: AppColors.snow,
     onBackground: AppColors.black,
     surface: AppColors.white,
+    surfaceTint: AppColors.white,
+    surfaceVariant: AppColors.white,
     onSurface: AppColors.black,
     onSurfaceVariant: AppColors.gray,
     shadow: AppColors.sliver,
