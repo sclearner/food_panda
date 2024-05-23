@@ -52,6 +52,7 @@ class HomePage extends StatelessWidget {
                       Column(
                         children: [
                           SearchBar(
+                            hintText: "Search for address, food, drink and more",
                             leading: Icon(
                               CupertinoIcons.search,
                               color: context.colorScheme.shadow,
