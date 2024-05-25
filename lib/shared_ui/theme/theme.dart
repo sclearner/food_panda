@@ -54,5 +54,8 @@ final appTheme = ThemeData(
     contentPadding: const EdgeInsets.all(20),
     titleTextStyle: textTheme.titleMedium,
     textColor: appColorScheme.onSurface,
+  ),
+  checkboxTheme: CheckboxThemeData(
+    shape: CircleBorder()
   )
 );

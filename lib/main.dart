@@ -8,6 +8,9 @@ import 'package:food_panda/ui/main/home/home_page.dart';
 import 'package:food_panda/ui/main/notification/notification_page.dart';
 import 'package:food_panda/ui/main/search/search_page.dart';
 import 'package:food_panda/ui/main/settings/settings_page.dart';
+import 'package:food_panda/ui/product/categories/categories_page.dart';
+import 'package:food_panda/ui/product/product/product_page.dart';
+import 'package:food_panda/ui/product/review/review_page.dart';
 import 'package:food_panda/ui/splash/splash_page.dart';
 
 void main() {
@@ -19,10 +22,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       theme: appTheme,
-      home: BookPage(),
+      home: CategoriesPage(),
     );
   }
 }
