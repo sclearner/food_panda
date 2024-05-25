@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/ui/order/success/order_success_page.dart';
 import 'package:intl/intl.dart';
 
 part 'date_picker.dart';
+
 part 'book_menu.dart';
 
 class BookPage extends StatelessWidget {
@@ -22,8 +24,7 @@ class BookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labelTextTheme = context.textTheme.labelMedium?.copyWith(
-      color: context.colorScheme.shadow,
-      fontWeight: FontWeight.w400);
+        color: context.colorScheme.onSurfaceVariant, fontWeight: FontWeight.w400);
     return Scaffold(
       extendBody: true,
       body: CustomScrollView(
@@ -78,8 +79,7 @@ class BookPage extends StatelessWidget {
                     8,
                     (i) => SizedBox(
                           width: context.width / 4.5,
-                          child: TextButton(
-                              onPressed: () {}, child: Text("${3 * i}:00")),
+                          child: TimePicker(isActive: i == 3, time: "${3 * i}:00"),
                         )),
               ),
             ),
@@ -90,6 +90,7 @@ class BookPage extends StatelessWidget {
             child: Container(
               height: 120,
               padding: EdgeInsets.all(20),
+              margin: const EdgeInsets.symmetric(vertical: 10),
               decoration:
                   BoxDecoration(color: context.colorScheme.surface, boxShadow: [
                 BoxShadow(
@@ -111,7 +112,10 @@ class BookPage extends StatelessWidget {
                       Text("Number of person", style: labelTextTheme),
                       Row(
                         children: [
-                          Text("2 Adults, 3 Children", style: context.textTheme.labelMedium,),
+                          Text(
+                            "2 Adults, 3 Children",
+                            style: context.textTheme.labelMedium,
+                          ),
                           Icon(CupertinoIcons.forward)
                         ],
                       )
@@ -136,10 +140,16 @@ class BookPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text("MENU", style: labelTextTheme,),
-                ), BookMenu()],
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "MENU",
+                      style: labelTextTheme,
+                    ),
+                  ),
+                  BookMenu()
+                ],
               ),
             ),
           ),
@@ -154,12 +164,14 @@ class BookPage extends StatelessWidget {
           children: [
             Text(
               "Total: \$123",
-              style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onPrimary),
+              style: context.textTheme.titleLarge
+                  ?.copyWith(color: context.colorScheme.onPrimary),
             ),
             Row(
               children: [
                 Text("ORDER",
-                    style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onPrimary)),
+                    style: context.textTheme.titleLarge
+                        ?.copyWith(color: context.colorScheme.onPrimary)),
                 SizedBox(width: 5),
                 Icon(Icons.arrow_forward)
               ],

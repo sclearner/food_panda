@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
-import 'package:food_panda/shared_ui/components/review_bar/review_bar.dart';
+import 'package:food_panda/shared_ui/components/review_bar/review_star_bar.dart';
 
 /// Thẻ chứa thông tin của sản phẩm
 class ProductCard extends StatelessWidget {
@@ -22,45 +22,61 @@ class ProductCard extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        "Pizza Boscaiola",
-                        style: context.textTheme.titleLarge
-                            ?.copyWith(color: context.colorScheme.onSurface),
-                      ),
-                      Text.rich(
-                        TextSpan(children: [
-                          TextSpan(text: "Mozzarella, ciuperci, bacon, oregano"),
-                          TextSpan(text: " – "),
-                          TextSpan(text: "1000g")
-                        ]),
-                        style: context.textTheme.bodySmall
-                            ?.copyWith(color: context.colorScheme.onSurfaceVariant),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const ReviewBar(count: 3.4),
-                      const SizedBox(width: 5),
-                      Text(
-                        "286 reviews",
-                        style: context.textTheme.labelSmall
-                            ?.copyWith(color: context.colorScheme.shadow),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+              child: ProductDetail(),
+            )
           )
+        ],
+      ),
+    );
+  }
+}
+
+class ProductDetail extends StatelessWidget {
+  final TextStyle? titleStyle;
+  final TextStyle? descriptionStyle;
+  final double? height;
+  const ProductDetail({super.key, this.titleStyle, this.descriptionStyle, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      height: height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Pizza Boscaiola",
+                style: titleStyle ?? context.textTheme.titleLarge
+                    ?.copyWith(color: context.colorScheme.onSurface),
+              ),
+              Text.rich(
+                TextSpan(children: [
+                  TextSpan(text: "Mozzarella, ciuperci, bacon, oregano"),
+                  TextSpan(text: " – "),
+                  TextSpan(text: "1000g")
+                ]),
+                style: descriptionStyle ?? context.textTheme.bodySmall
+                    ?.copyWith(color: context.colorScheme.onSurfaceVariant),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const ReviewStarBar(count: 3.4),
+              const SizedBox(width: 5),
+              Text(
+                "286 reviews",
+                style: context.textTheme.labelSmall
+                    ?.copyWith(color: context.colorScheme.shadow),
+              )
+            ],
+          ),
         ],
       ),
     );
