@@ -50,8 +50,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
+    return ListView(
         children: [
           Container(
             height: 278,
@@ -66,17 +65,28 @@ class SettingsPage extends StatelessWidget {
               colorFilter: ColorFilter.mode(
                   context.colorScheme.primary, BlendMode.modulate),
             )),
-            child: const Row(
+            child: Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 33.5,
+                  backgroundColor: AppColors.viettelRed,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Viettel Digital Talent"),
-                    Text("vdt@viettel.com.vn")
+                    Text(
+                      "Viettel Digital Talent",
+                      style: context.textTheme.headlineLarge?.copyWith(
+                        color: context.colorScheme.onPrimary,
+                      ),
+                    ),
+                    Text(
+                      "vdt@viettel.com.vn",
+                      style: context.textTheme.headlineSmall
+                          ?.copyWith(color: context.colorScheme.onPrimary),
+                    )
                   ],
                 )
               ],
@@ -84,7 +94,6 @@ class SettingsPage extends StatelessWidget {
           ),
           ..._settingsListTiles
         ],
-      ),
     );
   }
 }

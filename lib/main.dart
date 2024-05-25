@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:food_panda/shared_ui/theme/theme.dart';
 import 'package:food_panda/ui/auth/login/login_page.dart';
+import 'package:food_panda/ui/order/billing/billing_page.dart';
+import 'package:food_panda/ui/order/book/book_page.dart';
+import 'package:food_panda/ui/main/favorites/favorites_page.dart';
 import 'package:food_panda/ui/main/home/home_page.dart';
+import 'package:food_panda/ui/main/notification/notification_page.dart';
 import 'package:food_panda/ui/main/search/search_page.dart';
 import 'package:food_panda/ui/main/settings/settings_page.dart';
 import 'package:food_panda/ui/splash/splash_page.dart';
@@ -18,7 +22,7 @@ class App extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       theme: appTheme,
-      home: SettingsPage(),
+      home: BookPage(),
     );
   }
 }

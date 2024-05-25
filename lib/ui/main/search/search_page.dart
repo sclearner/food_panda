@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
 part 'search_appbar.dart';
@@ -11,17 +12,17 @@ part 'search_appbar.dart';
 class SearchPage extends StatelessWidget {
   static const _tabs = ['Nearby', 'Popular', 'Top review', 'Recommend'];
 
-  const SearchPage({super.key});
+  SearchPage({super.key});
 
-  final _gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 190,
-      crossAxisSpacing: 25,
-      childAspectRatio: 167 / 268,
+  _gridDelegate(BuildContext context) => SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: max(context.width ~/ 220, 1),
+      mainAxisExtent: 268,
+      crossAxisSpacing: 20,
       mainAxisSpacing: 25);
 
-  SliverGridDelegate _listDelegate(BuildContext context) => SliverGridDelegateWithFixedCrossAxisCount(
+  final _listDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 1, crossAxisSpacing: 25,
-      childAspectRatio: context.width / 268,
+      mainAxisExtent: 268,
       mainAxisSpacing: 25);
 
   @override
@@ -39,7 +40,7 @@ class SearchPage extends StatelessWidget {
               sliver: SliverGrid(
                   delegate:
                   SliverChildBuilderDelegate((context, i) => ProductCard()),
-                  gridDelegate: Random().nextBool() ? _listDelegate(context): _gridDelegate),
+                  gridDelegate: false ? _listDelegate: _gridDelegate(context)),
             )
           ],
         ),

@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
+import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,7 +18,7 @@ class HomePage extends StatelessWidget {
         Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: AssetImage(GraphicAssets.homeBackground))),
@@ -23,18 +26,28 @@ class HomePage extends StatelessWidget {
         Container(
             width: double.infinity,
             height: double.infinity,
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 vertical: _verticalPadding, horizontal: 25),
             color: AppColors.blackOverlay,
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                    backgroundColor: Colors.transparent,
-                    leading: Transform(
+                  backgroundColor: Colors.transparent,
+                  leading: Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        color: AppColors.viettelRed,
+                        borderRadius: BorderRadius.circular(9999)
+                      ),
                       transform: Matrix4.translationValues(0, -4, 0),
-                      child: CircleAvatar(backgroundColor: AppColors.viettelRed),
                     ),
-                    title: Text("Hi, VDT", style: TextStyle(color: context.colorScheme.onPrimary),),
+                  ),
+                  title: Text(
+                    "Hi, VDT",
+                    style: context.textTheme.headlineSmall?.copyWith(color: context.colorScheme.onPrimary),
+                  ),
                 ),
                 SliverToBoxAdapter(
                   child: Column(
@@ -46,13 +59,15 @@ class HomePage extends StatelessWidget {
                             _verticalPadding,
                         alignment: Alignment.centerLeft,
                         child: Text("What can\nwe serve you\ntoday?",
-                            style: TextStyle(
-                                color: context.colorScheme.onPrimary)),
+                            style: context.textTheme.displayLarge?.copyWith(
+                                color: context.colorScheme.onPrimary,
+                                )),
                       ),
                       Column(
                         children: [
                           SearchBar(
-                            hintText: "Search for address, food, drink and more",
+                            hintText:
+                                "Search for address, food, drink and more",
                             leading: Icon(
                               CupertinoIcons.search,
                               color: context.colorScheme.shadow,
@@ -63,7 +78,7 @@ class HomePage extends StatelessWidget {
                                   icon: Row(
                                     children: [
                                       Icon(
-                                        Icons.location_pin,
+                                        AppIcons.locationPin,
                                         color: context.colorScheme.primary,
                                       )
                                     ],

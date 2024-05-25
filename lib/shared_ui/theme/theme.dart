@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:food_panda/shared_ui/theme/scheme.dart';
+import 'scheme.dart';
+import 'typography.dart';
 
 /// Theme sáng của ứng dụng, sử dụng bảng màu đã quy định.
 /// Theme được sử dụng nhằm đồng bộ cách hiển thị các thành phần UI
@@ -9,6 +10,7 @@ final appTheme = ThemeData(
     colorScheme: appColorScheme,
     useMaterial3: true,
     fontFamily: 'Nunito',
+    textTheme: textTheme,
 
     ///Định dạng của nút màu
     filledButtonTheme: FilledButtonThemeData(
@@ -27,9 +29,9 @@ final appTheme = ThemeData(
         constraints: BoxConstraints(minHeight: 51),
         padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
         textStyle: MaterialStatePropertyAll(
-            TextStyle(color: appColorScheme.onSurface)),
+            textTheme.bodyMedium?.copyWith(color: appColorScheme.onSurface)),
         hintStyle:
-            MaterialStatePropertyAll(TextStyle(color: appColorScheme.shadow))),
+            MaterialStatePropertyAll(textTheme.labelLarge?.copyWith(color: appColorScheme.shadow))),
   tabBarTheme: TabBarTheme(
     tabAlignment: TabAlignment.start,
     indicatorColor: Colors.transparent,
@@ -42,9 +44,15 @@ final appTheme = ThemeData(
     color: appColorScheme.onPrimary
   ),
   cardTheme: CardTheme(
-    elevation: 4,
+    elevation: 2,
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: appColorScheme.primary,
+    foregroundColor: appColorScheme.onPrimary
+  ),
+  listTileTheme: ListTileThemeData(
+    contentPadding: const EdgeInsets.all(20),
+    titleTextStyle: textTheme.titleMedium,
+    textColor: appColorScheme.onSurface,
   )
 );

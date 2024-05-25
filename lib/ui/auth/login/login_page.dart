@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
+import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/assets/logo.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
@@ -105,23 +106,27 @@ class AdditionalFunction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       FilledButton(
           onPressed: () {},
           style: FilledButton.styleFrom(backgroundColor: AppColors.blue),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text("CONNECT WITH FACEBOOK")],
+          child: const OverflowBar(
+            alignment: MainAxisAlignment.center,
+            overflowAlignment: OverflowBarAlignment.center,
+            children: [
+              Icon(AppIcons.facebook),
+              SizedBox(width: 10),
+              Text("CONNECT WITH FACEBOOK")
+            ],
           )),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: OverflowBar(
+          alignment: MainAxisAlignment.center,
+          overflowAlignment: OverflowBarAlignment.center,
           children: [
             const Text(
-              "Don't have an account?",
+              "Don't have an account? ",
               style: TextStyle(color: AppColors.white),
             ),
             TextButton(

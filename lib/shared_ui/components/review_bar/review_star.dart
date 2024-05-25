@@ -10,7 +10,7 @@ class ReviewStar extends StatelessWidget {
   final double size;
 
   ReviewStar(
-      {super.key, this.activeColor, this.inactiveColor, this.active = false, this.size = 14});
+      {super.key, this.activeColor, this.inactiveColor, this.active = false, this.size = 10});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ReviewStar extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      padding: EdgeInsets.all(size / 14 * 3),
+      margin: EdgeInsets.all(size / 14 * 1.5),
       decoration: ShapeDecoration(
           color: active ? activeColor : inactiveColor,
           shape: StarBorder(

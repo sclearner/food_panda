@@ -10,6 +10,7 @@ class SearchAppbar extends SliverAppBar {
           toolbarHeight: 90,
           pinned: true,
           automaticallyImplyLeading: false,
+          foregroundColor: context.colorScheme.onSurface,
           title: SearchBar(
               hintText: "Search for address, food, drink and more",
               leading: Row(
@@ -33,7 +34,7 @@ class SearchAppbar extends SliverAppBar {
                     icon: Row(
                       children: [
                         Icon(
-                          Icons.location_pin,
+                          AppIcons.locationPin,
                           color: context.colorScheme.primary,
                         ),
                         Text("Việt Nam")
@@ -57,15 +58,14 @@ class SearchAppbar extends SliverAppBar {
                             style: TextButton.styleFrom(
                                 foregroundColor:
                                     context.colorScheme.onSecondary),
-                            icon: Icon(Icons.filter_alt),
+                            icon: Icon(AppIcons.filter),
                             label: Text("Filter")),
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.grid_view_rounded)),
+                                onPressed: () {}, icon: Icon(AppIcons.grid)),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.messenger))
+                                onPressed: () {}, icon: Icon(AppIcons.list))
                           ],
                         )
                       ],
@@ -77,8 +77,8 @@ class SearchAppbar extends SliverAppBar {
                     transform: Matrix4.translationValues(0, -0.5, 0),
                     decoration: BoxDecoration(
                         color: context.colorScheme.primary,
-                        borderRadius:
-                            BorderRadius.vertical(bottom: Radius.circular(30))),
+                        borderRadius: const BorderRadius.vertical(
+                            bottom: Radius.circular(30))),
                     child: TabBar(
                       tabAlignment: TabAlignment.center,
                       isScrollable: true,
