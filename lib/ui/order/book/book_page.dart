@@ -11,10 +11,10 @@ part 'date_picker.dart';
 
 part 'book_menu.dart';
 
-class BookPage extends StatelessWidget {
+class BookScreen extends StatelessWidget {
   late final DateTime _today;
 
-  BookPage({super.key})
+  BookScreen({super.key})
       : _today = (() {
           return DateTime.now();
         })();

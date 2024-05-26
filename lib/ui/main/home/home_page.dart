@@ -8,7 +8,7 @@ import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   static const double _verticalPadding = 45;
 
   @override

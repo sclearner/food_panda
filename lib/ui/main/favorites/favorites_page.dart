@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
-class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({super.key});
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

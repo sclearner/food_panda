@@ -7,8 +7,8 @@ import 'package:food_panda/shared_ui/assets/logo.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
 ///Màn hình đăng nhập của ứng dụng
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +56,9 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginPage]
+///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginScreen]
 class LoginForm extends StatelessWidget {
-  ///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginPage]
+  ///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginScreen]
   const LoginForm({super.key});
 
   InputDecoration _decoration(ColorScheme colorScheme) => InputDecoration(
@@ -98,10 +98,10 @@ class LoginForm extends StatelessWidget {
 }
 
 ///Các chức năng khác như đăng nhập bằng Facebook
-///và đăng ký trong trang Đăng nhập [LoginPage]
+///và đăng ký trong trang Đăng nhập [LoginScreen]
 class AdditionalFunction extends StatelessWidget {
   ///Các chức năng khác như đăng nhập bằng Facebook
-  ///và đăng ký trong trang Đăng nhập [LoginPage]
+  ///và đăng ký trong trang Đăng nhập [LoginScreen]
   const AdditionalFunction({super.key});
 
   @override

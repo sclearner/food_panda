@@ -7,7 +7,7 @@ import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/assets/logo.dart';
 
-class BillingPage extends StatelessWidget {
+class BillingScreen extends StatelessWidget {
   List<Widget> _addDivider(List<Widget> items) {
     List<Widget> result = [];
     for (int i = 0; i < items.length - 1; i++) {

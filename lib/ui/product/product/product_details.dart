@@ -1,6 +1,6 @@
 part of 'product_page.dart';
 
-class ProductPageDetails extends StatelessWidget {
+class ProductScreenDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 

@@ -5,7 +5,7 @@ import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 import 'package:intl/intl.dart';
 
-class HistoryPage extends StatelessWidget {
+class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(

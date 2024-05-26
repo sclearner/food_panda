@@ -5,11 +5,11 @@ import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/logo.dart';
 
 ///Màn hình splash cho ứng dụng, hiển thị cho đến khi load được toàn bộ thông tin
-class SplashPage extends StatelessWidget {
+class SplashScreen extends StatelessWidget {
   final double _logoLeft = -21;
   final double _logoHeight = 424;
 
-  const SplashPage({super.key});
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

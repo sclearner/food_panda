@@ -9,10 +9,10 @@ import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
 part 'search_appbar.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchScreen extends StatelessWidget {
   static const _tabs = ['Nearby', 'Popular', 'Top review', 'Recommend'];
 
-  SearchPage({super.key});
+  SearchScreen({super.key});
 
   _gridDelegate(BuildContext context) => SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: max(context.width ~/ 220, 1),

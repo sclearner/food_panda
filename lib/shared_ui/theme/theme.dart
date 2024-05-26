@@ -30,32 +30,33 @@ final appTheme = ThemeData(
         padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
         textStyle: MaterialStatePropertyAll(
             textTheme.bodyMedium?.copyWith(color: appColorScheme.onSurface)),
-        hintStyle:
-            MaterialStatePropertyAll(textTheme.labelLarge?.copyWith(color: appColorScheme.shadow))),
-  tabBarTheme: TabBarTheme(
-    tabAlignment: TabAlignment.start,
-    indicatorColor: Colors.transparent,
-    dividerColor: Colors.transparent,
-    labelColor: appColorScheme.onPrimary,
-    labelStyle: TextStyle(fontVariations: [FontVariation.weight(700)]),
-    unselectedLabelColor: appColorScheme.onPrimary,
-  ),
-  iconTheme: IconThemeData(
-    color: appColorScheme.onPrimary
-  ),
-  cardTheme: CardTheme(
-    elevation: 2,
-  ),
-  appBarTheme: AppBarTheme(
-    backgroundColor: appColorScheme.primary,
-    foregroundColor: appColorScheme.onPrimary
-  ),
-  listTileTheme: ListTileThemeData(
-    contentPadding: const EdgeInsets.all(20),
-    titleTextStyle: textTheme.titleMedium,
-    textColor: appColorScheme.onSurface,
-  ),
-  checkboxTheme: CheckboxThemeData(
-    shape: CircleBorder()
-  )
-);
+        hintStyle: MaterialStatePropertyAll(
+            textTheme.labelLarge?.copyWith(color: appColorScheme.shadow))),
+    tabBarTheme: TabBarTheme(
+      tabAlignment: TabAlignment.start,
+      indicatorColor: Colors.transparent,
+      dividerColor: Colors.transparent,
+      labelColor: appColorScheme.onPrimary,
+      labelStyle: TextStyle(fontVariations: [FontVariation.weight(700)]),
+      unselectedLabelColor: appColorScheme.onPrimary,
+    ),
+    iconTheme: IconThemeData(color: appColorScheme.onPrimary),
+    cardTheme: CardTheme(
+      elevation: 2,
+    ),
+    appBarTheme: AppBarTheme(
+        backgroundColor: appColorScheme.primary,
+        foregroundColor: appColorScheme.onPrimary),
+    listTileTheme: ListTileThemeData(
+      contentPadding: const EdgeInsets.all(20),
+      titleTextStyle: textTheme.titleMedium,
+      textColor: appColorScheme.onSurface,
+    ),
+    checkboxTheme: CheckboxThemeData(shape: CircleBorder()),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        backgroundColor: appColorScheme.surface,
+        selectedItemColor: appColorScheme.primary,
+        unselectedItemColor: appColorScheme.shadow));

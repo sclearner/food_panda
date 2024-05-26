@@ -4,7 +4,7 @@ import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
 ///Trang settings của ứng dụng
-class SettingsPage extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   final List<Widget> _settingsListTiles = [
     ListTile(
       leading: CircleAvatar(

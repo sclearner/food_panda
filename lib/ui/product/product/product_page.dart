@@ -16,7 +16,7 @@ part 'product_menu.dart';
 
 part 'product_review.dart';
 
-class ProductPage extends StatelessWidget {
+class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -36,7 +36,7 @@ class ProductPage extends StatelessWidget {
           SliverToBoxAdapter(
               child: Padding(
             padding: const EdgeInsets.all(10),
-            child: ProductPageDetails(),
+            child: ProductScreenDetails(),
           )),
 
           /// Photos Gallery

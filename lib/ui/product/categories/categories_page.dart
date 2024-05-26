@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/components/dish_bar/dish_bar.dart';
 
-class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({super.key});
+class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({super.key});
 
   static const List<Tab> _tabs = [
     Tab(text: "STARTERS"),

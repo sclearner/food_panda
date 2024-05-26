@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/components/review_bar/review_bar.dart';
 
-class ReviewPage extends StatelessWidget {
-  const ReviewPage({super.key});
+class ReviewScreen extends StatelessWidget {
+  const ReviewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

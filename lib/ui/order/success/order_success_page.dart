@@ -3,8 +3,8 @@ import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 
-class OrderSuccessPage extends Page {
-  OrderSuccessPage({super.key});
+class OrderSuccessScreen extends Page {
+  OrderSuccessScreen({super.key});
 
   @override
   Route createRoute(BuildContext context) {
