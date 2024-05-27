@@ -12,6 +12,7 @@ class LoginRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return const LoginScreen();
   }
+
 }
 
 @TypedShellRoute<MainRoute>(
@@ -31,7 +32,7 @@ class MainRoute extends ShellRouteData {
   }
 }
 
-class HomeRoute extends GoRouteData {
+class HomeRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = mainNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -39,7 +40,7 @@ class HomeRoute extends GoRouteData {
   }
 }
 
-class HistoryRoute extends GoRouteData {
+class HistoryRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = mainNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -48,7 +49,7 @@ class HistoryRoute extends GoRouteData {
   }
 }
 
-class FavoritesRoute extends GoRouteData {
+class FavoritesRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = mainNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -56,7 +57,7 @@ class FavoritesRoute extends GoRouteData {
   }
 }
 
-class NotificationsRoute extends GoRouteData {
+class NotificationsRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = mainNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -64,7 +65,7 @@ class NotificationsRoute extends GoRouteData {
   }
 }
 
-class SettingsRoute extends GoRouteData {
+class SettingsRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = mainNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -73,7 +74,7 @@ class SettingsRoute extends GoRouteData {
 }
 
 @TypedGoRoute<SearchRoute>(path: '/search/:input')
-class SearchRoute extends GoRouteData {
+class SearchRoute extends GoRouteData with LoginRedirect {
   const SearchRoute({required this.input});
   static final NavigatorKey $navigatorKey = rootNavigatorKey;
   final String input;
@@ -88,7 +89,7 @@ class SearchRoute extends GoRouteData {
   TypedGoRoute<BookRoute>(path: 'book'),
   TypedGoRoute<BillingRoute>(path: 'billing')
 ])
-class ProductRoute extends GoRouteData {
+class ProductRoute extends GoRouteData with LoginRedirect {
   const ProductRoute({required this.productId});
 
   final String productId;
@@ -100,7 +101,7 @@ class ProductRoute extends GoRouteData {
   }
 }
 
-class BookRoute extends GoRouteData {
+class BookRoute extends GoRouteData with LoginRedirect {
   static final NavigatorKey $navigatorKey = rootNavigatorKey;
 
   final String productId;
@@ -109,31 +110,39 @@ class BookRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // TODO: implement build
     return BookScreen();
   }
 }
 
-class CategoriesRoute extends GoRouteData {
+class CategoriesRoute extends GoRouteData with LoginRedirect {
   const CategoriesRoute({required this.productId});
 
   final String productId;
   static final NavigatorKey $navigatorKey = rootNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // TODO: implement build
     return CategoriesScreen();
   }
 }
 
-class BillingRoute extends GoRouteData {
+class BillingRoute extends GoRouteData with LoginRedirect {
   const BillingRoute({required this.productId});
 
   final String productId;
   static final NavigatorKey $navigatorKey = rootNavigatorKey;
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    // TODO: implement build
     return BillingScreen();
+  }
+}
+
+mixin LoginRedirect on GoRouteData {
+  @override
+  Future<String?> redirect(BuildContext context, GoRouterState state) async {
+    final authState = context.read<AuthBloc>().state;
+    if (authState.status == AuthStatus.auth) {
+      return '/login';
+    }
+    return null;
   }
 }
