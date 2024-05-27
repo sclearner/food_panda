@@ -37,7 +37,7 @@ final appTheme = ThemeData(
       indicatorColor: Colors.transparent,
       dividerColor: Colors.transparent,
       labelColor: appColorScheme.onPrimary,
-      labelStyle: TextStyle(fontVariations: [FontVariation.weight(700)]),
+      labelStyle: TextStyle(fontWeight: FontWeight.w700),
       unselectedLabelColor: appColorScheme.onPrimary,
     ),
     iconTheme: IconThemeData(color: appColorScheme.onPrimary),
@@ -57,6 +57,7 @@ final appTheme = ThemeData(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        elevation: 4,
         backgroundColor: appColorScheme.surface,
         selectedItemColor: appColorScheme.primary,
         unselectedItemColor: appColorScheme.shadow));

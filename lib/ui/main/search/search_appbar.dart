@@ -8,7 +8,8 @@ class SearchAppbar extends SliverAppBar {
       : assert(tabLabels.isNotEmpty),
         super(
           toolbarHeight: 90,
-          pinned: true,
+          floating: true,
+          surfaceTintColor: Colors.transparent,
           automaticallyImplyLeading: false,
           foregroundColor: context.colorScheme.onSurface,
           title: SearchBar(
