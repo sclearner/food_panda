@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/repositories/auth_repo.dart';
@@ -24,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginUsernameChanged event, Emitter<LoginState> emit) {
     final username = event.username;
     emit(state
-        .copyWith(username: username)
+        .copyWith(status: LoginStatus.editing, username: username)
         .removeExceptionOf(LoginExceptionCause.username));
   }
 
@@ -32,27 +30,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginPasswordChanged event, Emitter<LoginState> emit) {
     final password = event.password;
     emit(state
-        .copyWith(password: password)
+        .copyWith(status: LoginStatus.editing, password: password)
         .removeExceptionOf(LoginExceptionCause.password));
   }
 
   void _onValidated(LoginValidated event, Emitter<LoginState> emit) {
+    emit(state.removeExceptionOf(LoginExceptionCause.network));
     if (state.username.isEmpty) {
-      emit(state.addExceptions(LoginExceptions.usernameEmpty));
+      emit(state.copyWith(status: LoginStatus.error).addExceptions(LoginExceptions.usernameEmpty));
     }
     if (state.password.isEmpty) {
-      emit(state.addExceptions(LoginExceptions.passwordEmpty));
+      emit(state.copyWith(status: LoginStatus.error).addExceptions(LoginExceptions.passwordEmpty));
+    }
+    if (state.exceptions.isEmpty) {
+      emit(state.copyWith(status: LoginStatus.verified));
     }
   }
 
   void _onSubmit(LoginSubmitted event, Emitter<LoginState> emit) async {
-    if (state.exceptions.isEmpty) {
-      emit(state.copyWith(status: LoginStatus.verified));
+    if (state.status == LoginStatus.verified) {
       try {
+        emit(state.copyWith(status: LoginStatus.waiting));
         await _authRepo.login(
             username: state.username, password: state.password);
         emit(state.copyWith(status: LoginStatus.success));
-        if (event.callback != null) event.callback!();
       } catch (e) {
         late LoginException exception;
         if (e is AuthException) {
@@ -68,8 +69,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               break;
           }
         }
-        emit(state.copyWith(status: LoginStatus.error).addExceptions(exception));
+        emit(
+            state.copyWith(status: LoginStatus.error).addExceptions(exception));
       }
     }
+  }
+
+  @override
+  void onChange(Change<LoginState> change) {
+    super.onChange(change);
+    print(
+        "State: ${change.nextState.status}\n\tusername: ${change.nextState.username}\n\tpassword: ${change.nextState.password}\n\texception: ${change.nextState.exceptions.length}\n");
   }
 }

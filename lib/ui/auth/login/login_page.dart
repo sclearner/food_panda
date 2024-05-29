@@ -1,8 +1,13 @@
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
 import 'package:food_panda/blocs/login_bloc/login_bloc.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/repositories/auth_repo.dart';
 import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
@@ -22,6 +27,7 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             ///Background

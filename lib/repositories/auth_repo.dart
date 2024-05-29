@@ -13,7 +13,7 @@ class AuthRepo {
 
   Future<void> login({required String username, required String password}) async {
     print('$username try to login');
-    await Future.delayed(const Duration(milliseconds: 10000));
+    await Future.delayed(const Duration(milliseconds: 500));
     _controller.add(AuthStatus.auth);
   }
 

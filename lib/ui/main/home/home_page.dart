@@ -85,10 +85,10 @@ class HomeScreen extends StatelessWidget {
                                   ))
                             ],
                           ),
-                          SizedBox(height: 15),
-                          FilledButton(onPressed: () {}, child: Text("SEARCH"))
+                          const SizedBox(height: 15),
+                          FilledButton(onPressed: () {}, child: const Text("SEARCH"))
                         ],
-                      )
+                      ),
                     ],
                   ),
                 )

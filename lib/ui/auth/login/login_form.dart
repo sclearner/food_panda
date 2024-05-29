@@ -15,29 +15,41 @@ class LoginForm extends StatelessWidget
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  BlocBuilder<LoginBloc, LoginState>(
-                      buildWhen: _usernameBuildWhen, builder: _usernameBuilder),
-                  BlocBuilder<LoginBloc, LoginState>(
-                      buildWhen: _passwordBuildWhen, builder: _passwordBuilder),
-                ],
+              FocusScope(
+                child: Column(
+                  children: [
+                    BlocBuilder<LoginBloc, LoginState>(
+                        buildWhen: _usernameBuildWhen, builder: _usernameBuilder),
+                    BlocBuilder<LoginBloc, LoginState>(
+                        buildWhen: _passwordBuildWhen, builder: _passwordBuilder),
+                  ],
+                ),
               ),
-              BlocBuilder<LoginBloc, LoginState>(
-                  buildWhen: (p, c) => p.status != c.status,
-                  builder: (context, state) {
-                    return FilledButton(
-                        onPressed: () async {
-                          context.read<LoginBloc>().add(const LoginValidated());
-                          context.read<LoginBloc>().add(LoginSubmitted(() {
-                            print("Login successfully");
-                            HomeRoute().go(context);
-                          }));
-                        },
-                        child: state.status == LoginStatus.verified
-                            ? const CircularProgressIndicator()
-                            : const Text("LOGIN"));
-                  })
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state.status == AuthStatus.auth) {
+                    HomeRoute().go(context);
+                  }
+                },
+                child: BlocBuilder<LoginBloc, LoginState>(
+                    buildWhen: (p, c) => p.status != c.status,
+                    builder: (context, state) {
+                      return FilledButton(
+                          onPressed: (LoginStatus.waiting != state.status)? () async {
+                            context
+                                .read<LoginBloc>()
+                                .add(const LoginValidated());
+                            context
+                                .read<LoginBloc>()
+                                .add(const LoginSubmitted());
+                          }: null,
+                          child: state.status == LoginStatus.waiting
+                              ? CircularProgressIndicator(
+                                  color: context.colorScheme.onPrimary,
+                                )
+                              : const Text("LOGIN"));
+                    }),
+              )
             ],
           ),
         ),
@@ -62,28 +74,46 @@ mixin LoginFormFunctions {
 }
 
 mixin class UsernameStateBuilder {
+  final FocusNode _usernameNode = FocusNode();
   bool _usernameBuildWhen(LoginState previous, LoginState current) =>
-      previous.username != current.username;
+      previous.username != current.username || !listEquals(previous.exceptions, current.exceptions);
 
   Widget _usernameBuilder(BuildContext context, LoginState state) {
     final usernameException = state.exceptions
         .where((element) => element.cause == LoginExceptionCause.username)
         .map((e) => e.message);
-    return TextFormField(
-        style: const TextStyle(color: AppColors.white),
-        onChanged: (username) =>
-            context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-        onTapOutside: (_) => context.read<LoginBloc>().add(const LoginValidated()),
-        decoration: _decoration(context.colorScheme).copyWith(
-            labelText: "Username", errorText: usernameException.join("\n")));
+    return StatefulBuilder(
+      builder: (context, _) {
+        return TextFormField(
+            key: ValueKey("login_username_field"),
+            style: const TextStyle(color: AppColors.white),
+            focusNode: _usernameNode,
+            selectionHeightStyle: BoxHeightStyle.max,
+            selectionWidthStyle: BoxWidthStyle.max,
+            keyboardType: TextInputType.name,
+            onChanged: (username) =>
+                context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+            onTapOutside: (_) {
+              context.read<LoginBloc>().add(const LoginValidated());
+              _usernameNode.unfocus();
+            },
+            textInputAction: TextInputAction.next,
+            decoration: _decoration(context.colorScheme).copyWith(
+                labelText: "Username",
+                errorText: usernameException.isNotEmpty
+                    ? usernameException.join("\n")
+                    : null));
+      }
+    );
   }
 }
 
 mixin class PasswordStateBuilder {
+  final FocusNode _passwordNode = FocusNode();
   bool _isShowPassword = false;
 
   bool _passwordBuildWhen(LoginState previous, LoginState current) =>
-      previous.password != current.password;
+      previous.password != current.password || !listEquals(previous.exceptions, current.exceptions);
 
   Widget _passwordBuilder(BuildContext context, LoginState state) {
     final passwordException = state.exceptions
@@ -91,14 +121,24 @@ mixin class PasswordStateBuilder {
         .map((e) => e.message);
     return StatefulBuilder(builder: (context, setState) {
       return TextFormField(
+          key: ValueKey("login_password_field"),
           style: const TextStyle(color: AppColors.white),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: !_isShowPassword,
-          onTapOutside: (_) => context.read<LoginBloc>().add(const LoginValidated()),
+          focusNode: _passwordNode,
+          selectionHeightStyle: BoxHeightStyle.max,
+          selectionWidthStyle: BoxWidthStyle.max,
+          keyboardType: TextInputType.visiblePassword,
+          onTapOutside: (_) {
+            context.read<LoginBloc>().add(const LoginValidated());
+            _passwordNode.unfocus();
+          },
           decoration: _decoration(context.colorScheme).copyWith(
               labelText: "Password",
-              errorText: passwordException.join("\n"),
+              errorText: passwordException.isNotEmpty
+                  ? passwordException.join("\n")
+                  : null,
               suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {

@@ -11,10 +11,12 @@ List<RouteBase> get $appRoutes => [
       $mainRoute,
       $searchRoute,
       $productRoute,
+      $billingSettingsRoute,
     ];
 
 RouteBase get $loginRoute => GoRouteData.$route(
       path: '/login',
+      parentNavigatorKey: LoginRoute.$parentNavigatorKey,
       factory: $LoginRouteExtension._fromState,
     );
 
@@ -35,35 +37,56 @@ extension $LoginRouteExtension on LoginRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $mainRoute => ShellRouteData.$route(
-      navigatorKey: MainRoute.$navigatorKey,
+RouteBase get $mainRoute => StatefulShellRouteData.$route(
+      parentNavigatorKey: MainRoute.$parentNavigatorKey,
+      navigatorContainerBuilder: MainRoute.$navigatorContainerBuilder,
       factory: $MainRouteExtension._fromState,
-      routes: [
-        GoRouteData.$route(
-          path: '/',
-          factory: $HomeRouteExtension._fromState,
+      branches: [
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/',
+              factory: $HomeRouteExtension._fromState,
+            ),
+          ],
         ),
-        GoRouteData.$route(
-          path: '/history',
-          factory: $HistoryRouteExtension._fromState,
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/history',
+              factory: $HistoryRouteExtension._fromState,
+            ),
+          ],
         ),
-        GoRouteData.$route(
-          path: '/favorite',
-          factory: $FavoritesRouteExtension._fromState,
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/favorite',
+              factory: $FavoritesRouteExtension._fromState,
+            ),
+          ],
         ),
-        GoRouteData.$route(
-          path: '/notifications',
-          factory: $NotificationsRouteExtension._fromState,
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/notifications',
+              factory: $NotificationsRouteExtension._fromState,
+            ),
+          ],
         ),
-        GoRouteData.$route(
-          path: '/settings',
-          factory: $SettingsRouteExtension._fromState,
+        StatefulShellBranchData.$branch(
+          routes: [
+            GoRouteData.$route(
+              path: '/settings',
+              factory: $SettingsRouteExtension._fromState,
+            ),
+          ],
         ),
       ],
     );
 
 extension $MainRouteExtension on MainRoute {
-  static MainRoute _fromState(GoRouterState state) => MainRoute();
+  static MainRoute _fromState(GoRouterState state) => const MainRoute();
 }
 
 extension $HomeRouteExtension on HomeRoute {
@@ -154,6 +177,7 @@ extension $SettingsRouteExtension on SettingsRoute {
 
 RouteBase get $searchRoute => GoRouteData.$route(
       path: '/search/:input',
+      parentNavigatorKey: SearchRoute.$parentNavigatorKey,
       factory: $SearchRouteExtension._fromState,
     );
 
@@ -178,18 +202,22 @@ extension $SearchRouteExtension on SearchRoute {
 
 RouteBase get $productRoute => GoRouteData.$route(
       path: '/product/:productId',
+      parentNavigatorKey: ProductRoute.$parentNavigatorKey,
       factory: $ProductRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
           path: 'menu',
+          parentNavigatorKey: CategoriesRoute.$parentNavigatorKey,
           factory: $CategoriesRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'book',
+          parentNavigatorKey: BookRoute.$parentNavigatorKey,
           factory: $BookRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'billing',
+          parentNavigatorKey: BillingRoute.$parentNavigatorKey,
           factory: $BillingRouteExtension._fromState,
         ),
       ],
@@ -259,6 +287,30 @@ extension $BillingRouteExtension on BillingRoute {
 
   String get location => GoRouteData.$location(
         '/product/${Uri.encodeComponent(productId)}/billing',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $billingSettingsRoute => GoRouteData.$route(
+      path: '/settings/billing',
+      parentNavigatorKey: BillingSettingsRoute.$parentNavigatorKey,
+      factory: $BillingSettingsRouteExtension._fromState,
+    );
+
+extension $BillingSettingsRouteExtension on BillingSettingsRoute {
+  static BillingSettingsRoute _fromState(GoRouterState state) =>
+      const BillingSettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/settings/billing',
       );
 
   void go(BuildContext context) => context.go(location);

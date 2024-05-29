@@ -1,6 +1,8 @@
 part of 'product_page.dart';
 
 class ProductReview extends StatelessWidget {
+  const ProductReview({super.key});
+
   List<Widget> reviewList(BuildContext context) => List.generate(
       10,
       (index) => Padding(

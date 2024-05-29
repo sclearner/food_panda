@@ -6,7 +6,7 @@ class UserRepo {
   Future<User?> getUser() async {
     if (_user != null) return _user;
     await Future.delayed(Duration(milliseconds: 300));
-    _user = User('test');
+    _user = User(id: 'test');
     return Future.value(_user);
   }
 }

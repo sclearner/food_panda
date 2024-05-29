@@ -30,6 +30,5 @@ final class LoginValidated extends LoginEvent {
 }
 
 final class LoginSubmitted extends LoginEvent {
-  final VoidCallback? callback;
-  const LoginSubmitted(this.callback);
+  const LoginSubmitted();
 }

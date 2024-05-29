@@ -13,6 +13,7 @@ enum LoginStatus {
   initial,
   editing,
   verified,
+  waiting,
   error,
   success;
 }

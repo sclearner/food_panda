@@ -7,7 +7,6 @@ import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/theme/theme.dart';
 
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:food_panda/ui/splash/splash_page.dart';
 
 void main() {
   usePathUrlStrategy();

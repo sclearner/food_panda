@@ -14,17 +14,17 @@ class ReviewScreen extends StatelessWidget {
           SliverAppBar(
             backgroundColor: context.colorScheme.primary,
             actions:
-            [IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search))],
-            title: Text("REVIEWS"),
+            [IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search))],
+            title: const Text("REVIEWS"),
             centerTitle: true,
           ),
           SliverPadding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             sliver: SliverList.separated(
               itemBuilder:(context, i) => Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ReviewBar()),
-              separatorBuilder: (BuildContext context, int index) => Divider(),),
+              separatorBuilder: (BuildContext context, int index) => const Divider(),),
             ),
         ],
       ),
