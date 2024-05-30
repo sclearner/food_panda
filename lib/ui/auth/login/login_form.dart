@@ -1,10 +1,41 @@
 part of 'login_page.dart';
 
 ///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginScreen]
-class LoginForm extends StatelessWidget
-    with LoginFormFunctions, UsernameStateBuilder, PasswordStateBuilder {
+class LoginForm extends StatefulWidget with LoginFormFunctions {
   ///Biểu mẫu đăng nhập trong trang Đăng nhập [LoginScreen]
   LoginForm({super.key});
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm>
+    with LoginFormFunctions, UsernameStateBuilder, PasswordStateBuilder {
+  @override
+  void initState() {
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+    _usernameController.addListener(
+      () {
+        context
+            .read<LoginBloc>()
+            .add(LoginUsernameChanged(_usernameController.text));
+      },
+    );
+    _passwordController.addListener(() {
+      context
+          .read<LoginBloc>()
+          .add(LoginPasswordChanged(_passwordController.text));
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +46,13 @@ class LoginForm extends StatelessWidget
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FocusScope(
-                child: Column(
-                  children: [
-                    BlocBuilder<LoginBloc, LoginState>(
-                        buildWhen: _usernameBuildWhen, builder: _usernameBuilder),
-                    BlocBuilder<LoginBloc, LoginState>(
-                        buildWhen: _passwordBuildWhen, builder: _passwordBuilder),
-                  ],
-                ),
+              Column(
+                children: [
+                  BlocBuilder<LoginBloc, LoginState>(
+                      buildWhen: _usernameBuildWhen, builder: _usernameBuilder),
+                  BlocBuilder<LoginBloc, LoginState>(
+                      buildWhen: _passwordBuildWhen, builder: _passwordBuilder),
+                ],
               ),
               BlocListener<AuthBloc, AuthState>(
                 listener: (context, state) {
@@ -35,14 +64,16 @@ class LoginForm extends StatelessWidget
                     buildWhen: (p, c) => p.status != c.status,
                     builder: (context, state) {
                       return FilledButton(
-                          onPressed: (LoginStatus.waiting != state.status)? () async {
-                            context
-                                .read<LoginBloc>()
-                                .add(const LoginValidated());
-                            context
-                                .read<LoginBloc>()
-                                .add(const LoginSubmitted());
-                          }: null,
+                          onPressed: (LoginStatus.waiting != state.status)
+                              ? () async {
+                                  context
+                                      .read<LoginBloc>()
+                                      .add(const LoginValidated());
+                                  context
+                                      .read<LoginBloc>()
+                                      .add(const LoginSubmitted());
+                                }
+                              : null,
                           child: state.status == LoginStatus.waiting
                               ? CircularProgressIndicator(
                                   color: context.colorScheme.onPrimary,
@@ -74,47 +105,51 @@ mixin LoginFormFunctions {
 }
 
 mixin class UsernameStateBuilder {
+  late final TextEditingController _usernameController;
   final FocusNode _usernameNode = FocusNode();
+
   bool _usernameBuildWhen(LoginState previous, LoginState current) =>
-      previous.username != current.username || !listEquals(previous.exceptions, current.exceptions);
+      current.status != LoginStatus.initial &&
+      (previous.username != current.username ||
+          !listEquals(previous.exceptions, current.exceptions));
 
   Widget _usernameBuilder(BuildContext context, LoginState state) {
     final usernameException = state.exceptions
         .where((element) => element.cause == LoginExceptionCause.username)
         .map((e) => e.message);
-    return StatefulBuilder(
-      builder: (context, _) {
-        return TextFormField(
-            key: ValueKey("login_username_field"),
-            style: const TextStyle(color: AppColors.white),
-            focusNode: _usernameNode,
-            selectionHeightStyle: BoxHeightStyle.max,
-            selectionWidthStyle: BoxWidthStyle.max,
-            keyboardType: TextInputType.name,
-            autofillHints: const [AutofillHints.username],
-            onChanged: (username) =>
-                context.read<LoginBloc>().add(LoginUsernameChanged(username)),
-            onTapOutside: (_) {
-              context.read<LoginBloc>().add(const LoginValidated());
-              _usernameNode.unfocus();
-            },
-            textInputAction: TextInputAction.next,
-            decoration: _decoration(context.colorScheme).copyWith(
-                labelText: "Username",
-                errorText: usernameException.isNotEmpty
-                    ? usernameException.join("\n")
-                    : null));
-      }
-    );
+    return StatefulBuilder(builder: (context, _) {
+      return TextFormField(
+          key: ValueKey("login_username_field"),
+          controller: _usernameController,
+          style: const TextStyle(color: AppColors.white),
+          focusNode: _usernameNode,
+          selectionHeightStyle: BoxHeightStyle.max,
+          selectionWidthStyle: BoxWidthStyle.max,
+          keyboardType: TextInputType.name,
+          autofillHints: const [AutofillHints.username],
+          onTapOutside: (_) {
+            context.read<LoginBloc>().add(const LoginValidated());
+            _usernameNode.unfocus();
+          },
+          textInputAction: TextInputAction.next,
+          decoration: _decoration(context.colorScheme).copyWith(
+              labelText: "Username",
+              errorText: usernameException.isNotEmpty
+                  ? usernameException.join("\n")
+                  : null));
+    });
   }
 }
 
 mixin class PasswordStateBuilder {
   final FocusNode _passwordNode = FocusNode();
+  late final TextEditingController _passwordController;
   bool _isShowPassword = false;
 
   bool _passwordBuildWhen(LoginState previous, LoginState current) =>
-      previous.password != current.password || !listEquals(previous.exceptions, current.exceptions);
+      current.status != LoginStatus.initial &&
+      (previous.password != current.password ||
+          !listEquals(previous.exceptions, current.exceptions));
 
   Widget _passwordBuilder(BuildContext context, LoginState state) {
     final passwordException = state.exceptions
@@ -123,6 +158,7 @@ mixin class PasswordStateBuilder {
     return StatefulBuilder(builder: (context, setState) {
       return TextFormField(
           key: ValueKey("login_password_field"),
+          controller: _passwordController,
           style: const TextStyle(color: AppColors.white),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
@@ -135,6 +171,11 @@ mixin class PasswordStateBuilder {
           onTapOutside: (_) {
             context.read<LoginBloc>().add(const LoginValidated());
             _passwordNode.unfocus();
+          },
+          onFieldSubmitted: (password) {
+            context.read<LoginBloc>().add(const LoginValidated());
+            _passwordNode.unfocus();
+            context.read<LoginBloc>().add(const LoginSubmitted());
           },
           decoration: _decoration(context.colorScheme).copyWith(
               labelText: "Password",
@@ -156,6 +197,7 @@ mixin class PasswordStateBuilder {
 
 InputDecoration _decoration(ColorScheme colorScheme) => InputDecoration(
     labelStyle: const TextStyle(color: AppColors.white),
+    suffixIconColor: colorScheme.onPrimary,
     border: const UnderlineInputBorder(
         borderSide: BorderSide(color: AppColors.white)),
     enabledBorder: const UnderlineInputBorder(

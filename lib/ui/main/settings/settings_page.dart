@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
           trailing: const Icon(Icons.arrow_forward_ios),
         ),
         ListTile(
-          onTap: () => const BillingSettingsRoute().go(context),
+          onTap: () => const BillingSettingsRoute().push(context),
           leading: const CircleAvatar(
             backgroundColor: AppColors.grass,
             radius: 47 / 2,
@@ -133,18 +133,22 @@ class SignOutButton extends StatelessWidget {
 
   void _handlePressed(BuildContext context) async {
     await showDialog(context: context, builder: (context) =>
-        AlertDialog(
-          title: const Text("Log out"),
-          content: const Text("Do you want to log out?"),
-          actions: [
-            TextButton(onPressed: () {
-              context.read<AuthRepo>().logOut();
-              LoginRoute().go(context);
-            }, child: const Text("OK")),
-            TextButton(onPressed: () {
-              context.pop();
-            }, child: const Text("Cancel"))
-          ],
+        BlocListener<AuthBloc, AuthState>(
+          listener: (BuildContext context, state) {
+            if (state.status == AuthStatus.unauth) LoginRoute().go(context);
+          },
+          child: AlertDialog(
+            title: const Text("Log out"),
+            content: const Text("Do you want to log out?"),
+            actions: [
+              TextButton(onPressed: () {
+                context.read<AuthRepo>().logOut();
+              }, child: const Text("OK")),
+              TextButton(onPressed: () {
+                context.pop();
+              }, child: const Text("Cancel"))
+            ],
+          ),
         ));
   }
 }

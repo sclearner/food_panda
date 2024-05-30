@@ -15,6 +15,9 @@ final appTheme = ThemeData(
     ///Định dạng của nút màu
     filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
+            disabledBackgroundColor: HSLColor.fromColor(appColorScheme.primary)
+                .withLightness(0.8)
+                .toColor(),
             minimumSize: const Size.fromHeight(51),
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(4),

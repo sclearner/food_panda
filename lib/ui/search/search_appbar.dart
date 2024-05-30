@@ -111,7 +111,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
                       context.pop();
                     }
                     catch (e) {
-                      HomeRoute().go(context);
+                      HomeRoute().push(context);
                     }
                   },
                 ),
@@ -142,7 +142,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
               bloc.add(SearchEditingKeyword(keyword));
             },
             onSubmitted: (keyword) {
-              SearchFoundRoute(input: keyword).go(context);
+              SearchFoundRoute(input: keyword).push(context);
             },
           );
         });
