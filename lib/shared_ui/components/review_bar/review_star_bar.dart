@@ -4,7 +4,7 @@ import 'review_star.dart';
 ///Thanh hiển thị đánh giá theo mức
 class ReviewStarBar extends StatelessWidget {
   final int maxCount;
-  final num count;
+  final double count;
 
   const ReviewStarBar({super.key, this.maxCount = 5, this.count = 0})
       : assert(maxCount > 0), assert(count > 0 && count <= maxCount);
@@ -14,7 +14,7 @@ class ReviewStarBar extends StatelessWidget {
     return Row(
       children: List.generate(maxCount, (index) =>
           ReviewStar(
-            active: index < count,
+            active: count - index,
           )),
     );
   }

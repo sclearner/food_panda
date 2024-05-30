@@ -91,6 +91,7 @@ mixin class UsernameStateBuilder {
             selectionHeightStyle: BoxHeightStyle.max,
             selectionWidthStyle: BoxWidthStyle.max,
             keyboardType: TextInputType.name,
+            autofillHints: const [AutofillHints.username],
             onChanged: (username) =>
                 context.read<LoginBloc>().add(LoginUsernameChanged(username)),
             onTapOutside: (_) {
@@ -130,6 +131,7 @@ mixin class PasswordStateBuilder {
           selectionHeightStyle: BoxHeightStyle.max,
           selectionWidthStyle: BoxWidthStyle.max,
           keyboardType: TextInputType.visiblePassword,
+          autofillHints: const [AutofillHints.password],
           onTapOutside: (_) {
             context.read<LoginBloc>().add(const LoginValidated());
             _passwordNode.unfocus();

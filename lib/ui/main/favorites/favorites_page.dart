@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
+import 'package:food_panda/ui/search/search_recommend_page.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -14,7 +16,9 @@ class FavoritesScreen extends StatelessWidget {
           SliverAppBar(
             backgroundColor: context.colorScheme.primary,
             leading:
-                IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search)),
+                IconButton(onPressed: () {
+                  SearchRecommendRoute().go(context);
+                }, icon: Icon(CupertinoIcons.search)),
             title: Text("FAVORITES"),
             centerTitle: true,
           ),

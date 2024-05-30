@@ -2,8 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_panda/blocs/search_bloc/search_bloc.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
@@ -38,15 +41,15 @@ class HomeScreen extends StatelessWidget {
                     child: Container(
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
-                        color: AppColors.viettelRed,
-                        borderRadius: BorderRadius.circular(9999)
-                      ),
+                          color: AppColors.viettelRed,
+                          borderRadius: BorderRadius.circular(9999)),
                       transform: Matrix4.translationValues(0, -4, 0),
                     ),
                   ),
                   title: Text(
                     "Hi, VDT",
-                    style: context.textTheme.headlineSmall?.copyWith(color: context.colorScheme.onPrimary),
+                    style: context.textTheme.headlineSmall
+                        ?.copyWith(color: context.colorScheme.onPrimary),
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -60,33 +63,17 @@ class HomeScreen extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text("What can\nwe serve you\ntoday?",
                             style: context.textTheme.displayLarge?.copyWith(
-                                color: context.colorScheme.onPrimary,
-                                )),
+                              color: context.colorScheme.onPrimary,
+                            )),
                       ),
                       Column(
                         children: [
-                          SearchBar(
-                            hintText:
-                                "Search for address, food, drink and more",
-                            leading: Icon(
-                              CupertinoIcons.search,
-                              color: context.colorScheme.shadow,
-                            ),
-                            trailing: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Row(
-                                    children: [
-                                      Icon(
-                                        AppIcons.locationPin,
-                                        color: context.colorScheme.primary,
-                                      )
-                                    ],
-                                  ))
-                            ],
-                          ),
+                          HomeSearchBar(),
                           const SizedBox(height: 15),
-                          FilledButton(onPressed: () {}, child: const Text("SEARCH"))
+                          FilledButton(
+                              onPressed: () {
+                                SearchFoundRoute(input: context.read<SearchBloc>().state.keyword).go(context);
+                              }, child: const Text("SEARCH"))
                         ],
                       ),
                     ],
@@ -96,5 +83,43 @@ class HomeScreen extends StatelessWidget {
             ))
       ],
     );
+  }
+}
+
+class HomeSearchBar extends StatelessWidget {
+  const HomeSearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<SearchBloc>();
+    return BlocBuilder<SearchBloc, SearchState>(
+        bloc: bloc,
+        builder: (context, state) {
+      return SearchBar(
+        hintText: "Search for address, food, drink and more",
+        onChanged: (keyword) {
+          bloc.add(SearchEditingKeyword(keyword));
+        },
+        onSubmitted: (keyword) {
+          SearchFoundRoute(input: keyword).go(context);
+        },
+        leading: Icon(
+          CupertinoIcons.search,
+          color: context.colorScheme.shadow,
+        ),
+        trailing: [
+          IconButton(
+              onPressed: () {},
+              icon: Row(
+                children: [
+                  Icon(
+                    AppIcons.locationPin,
+                    color: context.colorScheme.primary,
+                  )
+                ],
+              ))
+        ],
+      );
+    });
   }
 }

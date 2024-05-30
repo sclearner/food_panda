@@ -6,11 +6,11 @@ import 'package:food_panda/extensions/theme.dart';
 class ReviewStar extends StatelessWidget {
   Color? activeColor;
   Color? inactiveColor;
-  final bool active;
+  final double active;
   final double size;
 
   ReviewStar(
-      {super.key, this.activeColor, this.inactiveColor, this.active = false, this.size = 10});
+      {super.key, this.activeColor, this.inactiveColor, this.active = 0, this.size = 10});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,10 @@ class ReviewStar extends StatelessWidget {
       height: size,
       margin: EdgeInsets.all(size / 14 * 1.5),
       decoration: ShapeDecoration(
-          color: active ? activeColor : inactiveColor,
+          gradient: LinearGradient(
+            colors: [activeColor!, activeColor!, inactiveColor!, inactiveColor!],
+            stops: [0, active.clamp(0, 1), active.clamp(0,1), 1]
+          ),
           shape: StarBorder(
             pointRounding: 0.5
           )),
