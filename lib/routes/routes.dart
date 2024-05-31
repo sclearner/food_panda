@@ -134,15 +134,16 @@ class SearchRecommendRoute extends GoRouteData with LoginRedirect {
   TypedGoRoute<BillingRoute>(path: 'billing')
 ])
 class ProductRoute extends GoRouteData with LoginRedirect {
-  const ProductRoute({required this.productId});
+  const ProductRoute({required this.productId, this.$extra});
 
   final String productId;
+  final Menu? $extra;
 
   static final NavigatorKey $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ProductScreen();
+    return ProductScreen(menu: $extra, productId: productId);
   }
 }
 

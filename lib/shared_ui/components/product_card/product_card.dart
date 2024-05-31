@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/models/menu.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/components/review_bar/review_star_bar.dart';
 
 /// Thẻ chứa thông tin của sản phẩm
@@ -13,25 +14,30 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            height: 161,
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                image: DecorationImage(
-                    image: NetworkImage(
-                        menu.gallery?[0] ?? "https://cellphones.com.vn/sforum/wp-content/uploads/2023/09/cach-nuong-pizza-thumbnail.jpg"),
-                    fit: BoxFit.cover)),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ProductDetail(),
+      child: InkWell(
+        onTap: () {
+          ProductRoute(productId: '123', $extra: menu).push(context);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 161,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          menu.gallery?[0] ?? "https://cellphones.com.vn/sforum/wp-content/uploads/2023/09/cach-nuong-pizza-thumbnail.jpg"),
+                      fit: BoxFit.cover)),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ProductDetail(menu: menu),
+              )
             )
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -46,7 +52,6 @@ class ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return SizedBox(
       height: height,
       child: Column(

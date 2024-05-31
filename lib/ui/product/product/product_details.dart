@@ -6,10 +6,15 @@ class ProductScreenDetails extends StatelessWidget {
 
     return Column(
       children: [
-        ProductDetail(
-          height: 100,
-          titleStyle: context.textTheme.headlineLarge,
-          descriptionStyle: context.textTheme.titleSmall,
+        BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            return ProductDetail(
+              height: 100,
+              menu: state.menu,
+              titleStyle: context.textTheme.headlineLarge,
+              descriptionStyle: context.textTheme.titleSmall,
+            );
+          }
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -23,7 +28,9 @@ class ProductScreenDetails extends StatelessWidget {
             ),
             FilledButton(
                 style: FilledButton.styleFrom(minimumSize: Size.zero, fixedSize: const Size.fromHeight(33), padding: EdgeInsets.symmetric(horizontal: 10), shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

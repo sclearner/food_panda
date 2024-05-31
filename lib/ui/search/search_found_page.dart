@@ -33,14 +33,14 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
   _gridDelegate(BuildContext context) =>
       SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: max(context.width ~/ 190, 1),
-          mainAxisExtent: 268,
+          mainAxisExtent: 271,
           crossAxisSpacing: 20,
           mainAxisSpacing: 25);
 
   final _listDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 1,
       crossAxisSpacing: 25,
-      mainAxisExtent: 268,
+      mainAxisExtent: 271,
       mainAxisSpacing: 25);
 
   @override

@@ -142,7 +142,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
               bloc.add(SearchEditingKeyword(keyword));
             },
             onSubmitted: (keyword) {
-              SearchFoundRoute(input: keyword).push(context);
+              SearchFoundRoute(input: keyword).pushReplacement(context);
             },
           );
         });

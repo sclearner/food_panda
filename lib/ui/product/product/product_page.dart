@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_panda/blocs/product_bloc/product_bloc.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/models/menu.dart';
+import 'package:food_panda/repositories/product_repo.dart';
 import 'package:food_panda/shared_ui/components/dish_bar/dish_bar.dart';
 import 'package:food_panda/shared_ui/components/photo_gallery/photo_gallery.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
@@ -17,57 +21,93 @@ part 'product_menu.dart';
 part 'product_review.dart';
 
 class ProductScreen extends StatelessWidget {
+  final String productId;
+  final Menu? menu;
+  final ProductRepo _productRepo = const ProductRepo();
+
+  ProductScreen({super.key, required this.productId, this.menu});
+
+  List<Widget> _content = [];
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 290,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                  'https://cdn.tgdd.vn/Files/2021/09/14/1382544/lau-sukiyaki-la-gi-tim-hieu-cach-nau-lau-sukiyaki-nhat-ban-202201031105547812.jpg',
-                  fit: BoxFit.cover),
+    return RepositoryProvider.value(
+      value: _productRepo,
+      child: BlocProvider(
+        create: (_) =>
+            ProductBloc(productId: productId, productRepo: _productRepo, initialData: menu),
+        child: Scaffold(
+          body: Builder(builder: (context) {
+            context.read<ProductBloc>().add(const ProductGetData());
+            return BlocBuilder<ProductBloc, ProductState>(
+              bloc: context.read<ProductBloc>(),
+                builder: (context, state) {
+              if (state.menu == null)
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              return CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    expandedHeight: 290,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: BlocBuilder<ProductBloc, ProductState>(
+                          builder: (context, state) {
+                        if (state.status == ProductStatus.loading &&
+                            state.menu?.gallery?.elementAtOrNull(0) == null) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: context.colorScheme.onPrimary,
+                            ),
+                          );
+                        }
+                        return Image.network(state.menu!.gallery![0],
+                            fit: BoxFit.cover);
+                      }),
+                    ),
+                  ),
+
+                  ///Details
+                  SliverToBoxAdapter(
+                      child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ProductScreenDetails(),
+                  )),
+
+                  /// Photos Gallery
+                  SliverToBoxAdapter(child: ProductPhotoGallery()),
+
+                  /// Mô tả (không có sẵn)
+                  SliverToBoxAdapter(
+                    child: ProductDescription(),
+                  ),
+
+                  /// Menu
+                  SliverToBoxAdapter(
+                    child: ProductMenu(),
+                  ),
+
+                  ///Review
+                  SliverToBoxAdapter(
+                    child: ProductReview(),
+                  ),
+
+                  ///End of page
+                  SliverToBoxAdapter(
+                      child: SizedBox(
+                    height: 54,
+                  ))
+                ],
+              );
+            });
+          }),
+          bottomSheet: FilledButton(
+            onPressed: () {},
+            style: FilledButton.styleFrom(fixedSize: Size.fromHeight(54)),
+            child: Center(
+              child: Text("BOOK A TABLE"),
             ),
           ),
-
-          ///Details
-          SliverToBoxAdapter(
-              child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: ProductScreenDetails(),
-          )),
-
-          /// Photos Gallery
-          SliverToBoxAdapter(child: ProductPhotoGallery()),
-
-          /// Mô tả (không có sẵn)
-          SliverToBoxAdapter(
-            child: ProductDescription(),
-          ),
-
-          /// Menu
-          SliverToBoxAdapter(
-            child: ProductMenu(),
-          ),
-
-          ///Review
-          SliverToBoxAdapter(
-            child: ProductReview(),
-          ),
-
-          ///End of page
-          SliverToBoxAdapter(
-            child: SizedBox(height: 54,)
-          )
-        ],
-      ),
-      bottomSheet: FilledButton(
-        onPressed: () {},
-        style: FilledButton.styleFrom(fixedSize: Size.fromHeight(54)),
-        child: Center(
-          child: Text("BOOK A TABLE"),
         ),
       ),
     );

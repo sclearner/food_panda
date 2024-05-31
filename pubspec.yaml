@@ -45,6 +45,7 @@ dependencies:
   equatable: ^2.0.5
   json_serializable: ^6.8.0
   json_annotation: ^4.9.0
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - assets/graphics/
     - assets/logo/
     - assets/icons/
+    - assets/sample/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

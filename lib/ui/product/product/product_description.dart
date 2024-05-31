@@ -10,23 +10,28 @@ class ProductDescription extends StatelessWidget {
         Container(
             color: AppColors.viettelRed, height: 200, width: double.infinity),
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("DESCRIPTION"),
-              Text.rich(
-                TextSpan(children: [
-                  ///Mô tả
-                  TextSpan(
-                      text:
-                          "Food is scrumptious, delicious, delectable, luscious, great tasting, much more than tasty, really appetizing, lip-smacking; the kind of food to have you licking your lips in anticipation. This is the word everyone wants to hear when bringing food to the table. Yummy food is never unpalatable, plain tasting, distasteful or disgusting."),
-                  TextSpan(text: " "),
-
-                  ///Xem thêm
-                  TextSpan(text: "View more")
-                ]),
-                textAlign: TextAlign.justify,
+              BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+                  if (state.menu?.description == null) return CircularProgressIndicator();
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Text.rich(
+                      TextSpan(children: [
+                        ///Mô tả
+                        TextSpan(
+                            text: state.menu!.description ?? "No description" ),
+                        ///Xem thêm
+                        TextSpan(text: " View more")
+                      ]),
+                      textAlign: TextAlign.justify,
+                    ),
+                  );
+                }
               ),
             ],
           ),
