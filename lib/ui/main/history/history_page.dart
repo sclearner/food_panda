@@ -6,6 +6,8 @@ import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 import 'package:intl/intl.dart';
 
 class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -13,7 +15,7 @@ class HistoryScreen extends StatelessWidget {
         SliverAppBar(
           leading:
               IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search)),
-          title: Text("ORDER HISTORY"),
+          title: const Text("ORDER HISTORY"),
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
           centerTitle: true,
         ),

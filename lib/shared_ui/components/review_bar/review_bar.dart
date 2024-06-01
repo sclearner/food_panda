@@ -37,7 +37,7 @@ class ReviewBar extends StatelessWidget {
                 "We had a wonderful dinner last nite. The food and staff were terrific. Often when we go to restaurants it is hard to find a menu that works well for the both of us. Random makes that a non-issue. My companion was not as hungry as I was. She asked for two appetizers, while I wanted an appetizer and a main. She only wanted an appetizer portion ",
                 softWrap: true,
               ),
-              PhotoGallery()
+              //PhotoGallery()
             ],
           ),
         )

@@ -130,6 +130,7 @@ class SearchRecommendRoute extends GoRouteData with LoginRedirect {
 
 @TypedGoRoute<ProductRoute>(path: '/product/:productId', routes: [
   TypedGoRoute<CategoriesRoute>(path: 'menu'),
+  TypedGoRoute<ReviewRoute>(path: 'review'),
   TypedGoRoute<BookRoute>(path: 'book'),
   TypedGoRoute<BillingRoute>(path: 'billing')
 ])
@@ -181,6 +182,18 @@ class BillingRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BillingScreen();
+  }
+}
+
+class ReviewRoute extends GoRouteData with LoginRedirect {
+  const ReviewRoute({required this.productId});
+
+  final String productId;
+  static final NavigatorKey $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ReviewScreen();
   }
 }
 

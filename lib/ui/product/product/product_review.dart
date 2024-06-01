@@ -31,7 +31,9 @@ class ProductReview extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("REVIEW"),
-              TextButton(onPressed: () {}, child: Text("See all reviews"))
+              TextButton(onPressed: () {
+
+              }, child: Text("See all reviews"))
             ],
           ),
         ),

@@ -242,6 +242,11 @@ RouteBase get $productRoute => GoRouteData.$route(
           factory: $CategoriesRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'review',
+          parentNavigatorKey: ReviewRoute.$parentNavigatorKey,
+          factory: $ReviewRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'book',
           parentNavigatorKey: BookRoute.$parentNavigatorKey,
           factory: $BookRouteExtension._fromState,
@@ -283,6 +288,25 @@ extension $CategoriesRouteExtension on CategoriesRoute {
 
   String get location => GoRouteData.$location(
         '/product/${Uri.encodeComponent(productId)}/menu',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ReviewRouteExtension on ReviewRoute {
+  static ReviewRoute _fromState(GoRouterState state) => ReviewRoute(
+        productId: state.pathParameters['productId']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/product/${Uri.encodeComponent(productId)}/review',
       );
 
   void go(BuildContext context) => context.go(location);

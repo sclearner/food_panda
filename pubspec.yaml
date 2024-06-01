@@ -46,6 +46,7 @@ dependencies:
   json_serializable: ^6.8.0
   json_annotation: ^4.9.0
   uuid: ^4.4.0
+  webview_flutter: ^4.5.0
 
 dev_dependencies:
   flutter_test:

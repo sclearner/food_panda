@@ -35,7 +35,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _onValidated(LoginValidated event, Emitter<LoginState> emit) {
-    emit(state.removeExceptionOf(LoginExceptionCause.network));
+    if (state.status == LoginStatus.initial) return;
+    emit(state.removeAllExceptions());
     if (state.username.isEmpty) {
       emit(state.copyWith(status: LoginStatus.error).addExceptions(LoginExceptions.usernameEmpty));
     }
