@@ -5,12 +5,12 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User extends Equatable {
-  const User({this.name, this.email, this.avatarLink, this.id, this.dob});
+  const User({this.name, this.email, this.avatarUrl, this.id, this.dob});
   final String? id;
   final String? name;
   final String? email;
   final DateTime? dob;
-  final String? avatarLink;
+  final String? avatarUrl;
 
   @override
   List get props => [id];

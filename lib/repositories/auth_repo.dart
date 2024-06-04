@@ -1,20 +1,44 @@
 import 'dart:async';
 
+import 'package:food_panda/network/auth_api.dart';
+import 'package:food_panda/network/base_api.dart';
+
 enum AuthStatus {unknown, auth, unauth}
 
 class AuthRepo {
   final _controller = StreamController<AuthStatus>();
+  final AuthApi _api = const AuthApi();
 
   Stream<AuthStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
-    yield AuthStatus.auth;
+    yield await getAccessToken();
     yield* _controller.stream;
   }
 
   Future<void> login({required String username, required String password}) async {
-    print('$username try to login');
-    await Future.delayed(const Duration(milliseconds: 500));
-    _controller.add(AuthStatus.auth);
+    try {
+      final response = await _api.login(username: username, password: password);
+      await prefs.setString('accessToken', response!['accessToken']);
+      await prefs.setString('refreshToken', response['refreshToken']);
+      _controller.add(AuthStatus.auth);
+    }
+    catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<AuthStatus> getAccessToken() async {
+    try {
+      if (!prefs.containsKey('refreshToken')) throw "";
+      final refreshToken = prefs.getString('refreshToken')!;
+      final response = await AuthApi.getAccessToken(refreshToken: refreshToken);
+      prefs.setString('accessToken', response!['accessToken']);
+      return AuthStatus.auth;
+    }
+    catch (e) {
+      prefs.remove('refreshToken');
+      prefs.remove('accessToken');
+      return AuthStatus.unauth;
+    }
   }
 
   void logOut() {
@@ -22,25 +46,4 @@ class AuthRepo {
   }
 
   void dispose() => _controller.close();
-}
-
-enum AuthExceptionCause { username, password, network }
-
-sealed class AuthException implements Exception {
-  final AuthExceptionCause cause;
-  final String message;
-
-  const AuthException(this.cause, this.message);
-}
-
-final class UsernameAuthException extends AuthException {
-  const UsernameAuthException(String message) : super(AuthExceptionCause.username, message);
-}
-
-final class PasswordAuthException extends AuthException {
-  const PasswordAuthException(String message) : super(AuthExceptionCause.password, message);
-}
-
-final class NetworkAuthException extends AuthException {
-  const NetworkAuthException(String message) : super(AuthExceptionCause.network, message);
 }

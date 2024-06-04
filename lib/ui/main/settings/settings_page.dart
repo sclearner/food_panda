@@ -6,6 +6,7 @@ import 'package:food_panda/repositories/auth_repo.dart';
 import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
+import 'package:food_panda/shared_ui/components/user_avatar/user_avatar.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 import 'package:food_panda/ui/main/main_page.dart';
 import 'package:go_router/go_router.dart';
@@ -85,27 +86,28 @@ class SettingsScreen extends StatelessWidget {
               )),
           child: Row(
             children: [
-              const CircleAvatar(
-                radius: 33.5,
-                backgroundColor: AppColors.viettelRed,
-              ),
+              const UserAvatar(radius: 33.5),
               const SizedBox(width: 10),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Viettel Digital Talent",
-                    style: context.textTheme.headlineLarge?.copyWith(
-                      color: context.colorScheme.onPrimary,
-                    ),
-                  ),
-                  Text(
-                    "vdt@viettel.com.vn",
-                    style: context.textTheme.headlineSmall
-                        ?.copyWith(color: context.colorScheme.onPrimary),
-                  )
-                ],
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.user.name ?? "New User",
+                        style: context.textTheme.headlineLarge?.copyWith(
+                          color: context.colorScheme.onPrimary,
+                        ),
+                      ),
+                      Text(
+                        state.user.email ?? "No email",
+                        style: context.textTheme.headlineSmall
+                            ?.copyWith(color: context.colorScheme.onPrimary),
+                      )
+                    ],
+                  );
+                }
               )
             ],
           ),

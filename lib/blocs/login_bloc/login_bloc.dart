@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_panda/exceptions/auth_exception.dart';
+import 'package:food_panda/exceptions/login_exception.dart';
 import 'package:food_panda/repositories/auth_repo.dart';
 
 part 'login_event.dart';
@@ -43,8 +45,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.password.isEmpty) {
       emit(state.copyWith(status: LoginStatus.error).addExceptions(LoginExceptions.passwordEmpty));
     }
-    if (state.exceptions.isEmpty) {
-      emit(state.copyWith(status: LoginStatus.verified));
+    if (state.exceptions.where((e) => e.cause != LoginExceptionCause.network).isEmpty) {
+      emit(state.copyWith(status: LoginStatus.verified, exceptions: []));
     }
   }
 
@@ -69,6 +71,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               exception = LoginExceptions.timeOut;
               break;
           }
+        }
+        else if (e is LoginException) {
+          exception = e;
         }
         emit(
             state.copyWith(status: LoginStatus.error).addExceptions(exception));

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
 import 'package:food_panda/blocs/login_bloc/login_bloc.dart';
+import 'package:food_panda/exceptions/login_exception.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/repositories/auth_repo.dart';

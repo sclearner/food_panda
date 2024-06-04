@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
 import 'package:food_panda/blocs/search_bloc/search_bloc.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/assets/icons.dart';
+import 'package:food_panda/shared_ui/components/user_avatar/user_avatar.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -38,18 +40,16 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   leading: Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          color: AppColors.viettelRed,
-                          borderRadius: BorderRadius.circular(9999)),
-                      transform: Matrix4.translationValues(0, -4, 0),
-                    ),
+                    child: UserAvatar(),
                   ),
-                  title: Text(
-                    "Hi, VDT",
-                    style: context.textTheme.headlineSmall
-                        ?.copyWith(color: context.colorScheme.onPrimary),
+                  title: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return Text(
+                        "Hi, ${state.user.name}",
+                        style: context.textTheme.headlineSmall
+                            ?.copyWith(color: context.colorScheme.onPrimary),
+                      );
+                    }
                   ),
                 ),
                 SliverToBoxAdapter(

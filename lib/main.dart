@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
 import 'package:food_panda/blocs/search_bloc/search_bloc.dart';
 import 'package:food_panda/repositories/auth_repo.dart';
@@ -9,8 +10,13 @@ import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/theme/theme.dart';
 
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'network/base_api.dart';
+
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+  prefs = await SharedPreferences.getInstance();
   usePathUrlStrategy();
   runApp(const App());
 }
