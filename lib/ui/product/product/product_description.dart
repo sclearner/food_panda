@@ -4,43 +4,53 @@ class ProductDescription extends StatelessWidget {
   bool _isFull = false;
   final int _lengthLimit = 200;
 
-  link(lat, long) => 'https://maps.google.com/maps?q=$lat,$long';
-
-  controller(double lat, double long) =>
-      WebViewController()
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..setBackgroundColor(const Color(0x00000000))
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onProgress: (int progress) {
-              // Update loading bar.
-            },
-            onPageStarted: (String url) {},
-            onPageFinished: (String url) {},
-            onWebResourceError: (WebResourceError error) {},
-            onNavigationRequest: (NavigationRequest request) {
-              if (request.url.startsWith('https://www.youtube.com/')) {
-                return NavigationDecision.prevent;
-              }
-              return NavigationDecision.navigate;
-            },
-          ),
-        )
-        ..loadRequest(Uri.parse(link(lat, long)));
+  // link(lat, long) => 'https://maps.google.com/maps?q=$lat,$long';
+  //
+  // controller(double lat, double long) =>
+  //     WebViewController()
+  //       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+  //       ..setBackgroundColor(const Color(0x00000000))
+  //       ..setNavigationDelegate(
+  //         NavigationDelegate(
+  //             onProgress: (int progress) {
+  //               // Update loading bar.
+  //             },
+  //             onPageStarted: (String url) {},
+  //           onPageFinished: (String url) {},
+  //           onWebResourceError: (WebResourceError error) {},
+  //           onNavigationRequest: (NavigationRequest request) {
+  //             if (request.url.startsWith('https://www.youtube.com/')) {
+  //               return NavigationDecision.prevent;
+  //             }
+  //             return NavigationDecision.navigate;
+  //           },
+  //         ),
+  //       )
+  //       ..loadRequest(Uri.parse(link(lat, long)));
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         ///Bản đồ
         Container(
-          color: AppColors.viettelRed, height: 200, width: double.infinity,
+          color: AppColors.viettelRed,
+          height: 200,
+          width: double.infinity,
           child: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
               if (state.menu?.latitude == null) return SizedBox();
-              return WebViewWidget(controller: controller(
-                  state.menu!.latitude!, state.menu!.longitude!));
+              final position =
+                  LatLng(state.menu!.latitude!, state.menu!.longitude!);
+              return FlutterMap(
+                  options: MapOptions(initialCenter: position),
+                  children: [
+                    MarkerLayer(markers: [
+                      Marker(point: position, child: const Text(""))
+                    ])
+                  ]);
+              // return WebViewWidget(controller: controller(
+              //     state.menu!.latitude!, state.menu!.longitude!));
             },
           ),
         ),
@@ -60,7 +70,6 @@ class ProductDescription extends StatelessWidget {
                   child: StatefulBuilder(builder: (context, setState) {
                     return Text.rich(
                       TextSpan(children: [
-
                         ///Mô tả
                         TextSpan(
                             text: _getDescription(state.menu!.description!)),
@@ -68,15 +77,16 @@ class ProductDescription extends StatelessWidget {
                         ///Xem thêm
                         ((state.menu!.description ?? "").length >= _lengthLimit)
                             ? TextSpan(
-                            text: (_isFull) ? "View less" : "View more",
-                            style: TextStyle(
-                              color: context.colorScheme.primary,),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                setState(() {
-                                  _isFull = !_isFull;
-                                });
-                              })
+                                text: (_isFull) ? "View less" : "View more",
+                                style: TextStyle(
+                                  color: context.colorScheme.primary,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    setState(() {
+                                      _isFull = !_isFull;
+                                    });
+                                  })
                             : const TextSpan(text: "")
                       ]),
                       textAlign: TextAlign.justify,
@@ -94,7 +104,6 @@ class ProductDescription extends StatelessWidget {
   String _getDescription(String content) {
     if (content.length <= _lengthLimit) return content.trim();
     if (_isFull) return "${content.trim()} ";
-    return "${content.substring(
-        0, content.substring(0, _lengthLimit).lastIndexOf(' '))} ";
+    return "${content.substring(0, content.substring(0, _lengthLimit).lastIndexOf(' '))} ";
   }
 }

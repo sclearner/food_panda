@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:food_panda/blocs/product_bloc/product_bloc.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/models/menu.dart';
@@ -11,6 +12,7 @@ import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 import 'package:food_panda/shared_ui/components/review_bar/review_bar.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 import 'package:food_panda/ui/product/product/product_cover_gallery.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 part 'product_details.dart';
