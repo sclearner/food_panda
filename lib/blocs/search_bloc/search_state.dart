@@ -1,43 +1,46 @@
 part of 'search_bloc.dart';
 
-enum SearchStatus { editing, finding, found, notFound }
+enum SearchResultStatus { none, partial, done }
 
 class SearchState extends Equatable {
-
-  final SearchStatus status;
-  List<Menu> menu;
+  final SearchResultStatus status;
+  final List<Menu> menu;
   final String keyword;
-  final String? lastKeyword;
+  final bool isLoading;
 
   SearchState(
-      {this.status = SearchStatus.editing,
-        this.lastKeyword,
-        List<Menu>? menu,
-      this.keyword = ""}): menu = menu ?? [];
+      {this.status = SearchResultStatus.none,
+      List<Menu>? menu,
+        this.isLoading = false,
+      this.keyword = ""})
+      : menu = menu ?? [];
 
   SearchState.initial() : this();
 
-  SearchState copyWith({SearchStatus? status, String? keyword, List<Menu>? menu, String? lastKeyword}) => SearchState(
-      status: status ?? this.status,
-      keyword: keyword ?? this.keyword,
-      menu: menu ?? this.menu,
-      lastKeyword: lastKeyword ?? this.lastKeyword
-  );
+  SearchState.keyword({required String keyword}) : this(keyword: keyword);
 
-  SearchState pushToHistory(String keyword) => copyWith(
-    lastKeyword: this.keyword,
-    keyword: keyword
-  );
+  SearchState copyWith(
+          {SearchResultStatus? status,
+          String? keyword,
+          List<Menu>? menu,
+          bool? isLoading}) =>
+      SearchState(
+          status: status ?? this.status,
+          keyword: keyword ?? this.keyword,
+          menu: menu ?? this.menu,
+          isLoading: isLoading ?? this.isLoading
+      );
 
   SearchState clearSearchResult() {
-    menu.clear();
-    return copyWith();
+    return copyWith(menu: [], status: SearchResultStatus.none);
   }
 
-  SearchState addToMenu(List<Menu> menus) {
-    return copyWith(menu: [...menu, ...menus], status: SearchStatus.found);
+  SearchState addToMenu(List<Menu> menus, [SearchResultStatus? status]) {
+    return copyWith(menu: [...menu, ...menus], status: status ?? SearchResultStatus.partial, isLoading: false);
   }
+
+  bool get isEmpty => menu.isEmpty && status == SearchResultStatus.done;
 
   @override
-  List<Object> get props => [status, menu.length, keyword];
+  List<Object> get props => [status, menu.length, keyword, isLoading];
 }

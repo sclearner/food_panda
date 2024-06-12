@@ -10,63 +10,41 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
+  static const int _limit = 10;
   final SearchRepo _searchRepo;
+  SearchState lastStateCommit = SearchState.initial();
+
   SearchBloc({required SearchRepo searchRepo}) : _searchRepo = searchRepo, super(SearchState.initial()) {
     on<SearchEditingKeyword>(_onSearchEditingKeyword);
-    on<SearchSubmitted>(_onSearchSubmitted);
-    on<SearchRequestMore>(_onSearchRequestMore);
+    on<SearchRequest>(_onSearchRequest);
+    on<SearchCancel>(_onSearchCancel);
+    on<SearchRefresh>(_onSearchRefresh);
   }
 
-  FutureOr<void> _onSearchEditingKeyword(SearchEditingKeyword event, Emitter<SearchState> emit) {
-    final keyword = event.keyword;
-    emit(state.copyWith(status: SearchStatus.editing, keyword: keyword));
+  void _onSearchEditingKeyword(SearchEditingKeyword event, Emitter<SearchState> emit) {
+     if (event.keyword != state.keyword) emit(SearchState.keyword(keyword: event.keyword));
   }
 
-  void _onSearchSubmitted(SearchSubmitted event, Emitter<SearchState> emit) async {
-    final keyword = event.keyword;
-    if (keyword == state.lastKeyword) {
-      emit(state.copyWith(status: SearchStatus.found));
-      return;
-    }
-    if (keyword.trim().isEmpty) {
-      emit(state.copyWith(lastKeyword: ""));
-      return;
-    }
+  Future<void> _onSearchRequest(SearchRequest event, Emitter<SearchState> emit) async {
+    lastStateCommit = state.copyWith();
     try {
-      emit(state.clearSearchResult().copyWith(status: SearchStatus.finding, lastKeyword: keyword, keyword: keyword));
-      List<Menu>? menu = await _searchRepo.search(keyword, offset: state.menu.length);
-      emit(state.copyWith(status: SearchStatus.found).addToMenu(menu!));
+      emit(state.copyWith(isLoading: true));
+      final result = await _searchRepo.search(state.keyword, limit: _limit, offset: state.menu.length) ?? [];
+      final searchStatus = result.length < _limit ? SearchResultStatus.done : SearchResultStatus.partial;
+      emit(state.addToMenu(result, searchStatus));
+      lastStateCommit = state.copyWith();
     }
-    catch (error) {
-      if (state.menu.isEmpty) {
-        emit(state.copyWith(status: SearchStatus.notFound));
-      } else {
-        emit(state.copyWith(status: SearchStatus.found));
-      }
+    catch (err) {
+      emit(state.copyWith(isLoading: false));
     }
   }
 
-  Future<void> _onSearchRequestMore(SearchRequestMore event, Emitter<SearchState> emit) async {
-    try {
-      emit(state.copyWith(status: SearchStatus.finding));
-      List<Menu>? menu = await _searchRepo.search(state.keyword, offset: state.menu.length);
-      emit(state.addToMenu(menu!));
-    }
-    catch (error) {
-      print(error);
-      if (state.menu.isEmpty) {
-        emit(state.copyWith(status: SearchStatus.notFound));
-      } else {
-        emit(state.copyWith(status: SearchStatus.found));
-      }
-    }
+  void _onSearchRefresh(SearchRefresh event, Emitter<SearchState> emit) async {
+    emit(state.clearSearchResult());
+    await _onSearchRequest(const SearchRequest(), emit);
   }
 
-  @override
-  void onChange(Change<SearchState> change) {
-    super.onChange(change);
-    print(change.currentState.status);
-    print(
-        "State: ${change.nextState.status}\n\tkeyword: ${change.nextState.keyword}\n\tlast_keyword: ${change.nextState.lastKeyword}\n\tmenu: ${change.nextState.menu}\n");
+  void _onSearchCancel(SearchCancel event, Emitter<SearchState> emit) {
+    emit(lastStateCommit);
   }
 }

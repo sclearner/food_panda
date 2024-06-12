@@ -6,16 +6,17 @@ sealed class SearchEvent {
 
 final class SearchEditingKeyword extends SearchEvent {
   final String keyword;
-
   const SearchEditingKeyword(this.keyword);
 }
 
-final class SearchSubmitted extends SearchEvent {
-  final String keyword;
-
-  const SearchSubmitted(this.keyword);
+final class SearchCancel extends SearchEvent {
+  const SearchCancel();
 }
 
-final class SearchRequestMore extends SearchEvent {
-  const SearchRequestMore();
+final class SearchRequest extends SearchEvent {
+  const SearchRequest();
+}
+
+final class SearchRefresh extends SearchEvent {
+  const SearchRefresh();
 }

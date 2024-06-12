@@ -176,50 +176,22 @@ extension $SettingsRouteExtension on SettingsRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $searchRoute => ShellRouteData.$route(
+RouteBase get $searchRoute => GoRouteData.$route(
+      path: '/search',
       parentNavigatorKey: SearchRoute.$parentNavigatorKey,
       factory: $SearchRouteExtension._fromState,
-      routes: [
-        GoRouteData.$route(
-          path: '/search/:input',
-          factory: $SearchFoundRouteExtension._fromState,
-        ),
-        GoRouteData.$route(
-          path: '/search',
-          factory: $SearchRecommendRouteExtension._fromState,
-        ),
-      ],
     );
 
 extension $SearchRouteExtension on SearchRoute {
-  static SearchRoute _fromState(GoRouterState state) => const SearchRoute();
-}
-
-extension $SearchFoundRouteExtension on SearchFoundRoute {
-  static SearchFoundRoute _fromState(GoRouterState state) => SearchFoundRoute(
-        input: state.pathParameters['input']!,
+  static SearchRoute _fromState(GoRouterState state) => SearchRoute(
+        state.uri.queryParameters['q'],
       );
-
-  String get location => GoRouteData.$location(
-        '/search/${Uri.encodeComponent(input)}',
-      );
-
-  void go(BuildContext context) => context.go(location);
-
-  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
-
-  void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location);
-
-  void replace(BuildContext context) => context.replace(location);
-}
-
-extension $SearchRecommendRouteExtension on SearchRecommendRoute {
-  static SearchRecommendRoute _fromState(GoRouterState state) =>
-      SearchRecommendRoute();
 
   String get location => GoRouteData.$location(
         '/search',
+        queryParams: {
+          if (q != null) 'q': q,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

@@ -16,7 +16,7 @@ class FavoritesScreen extends StatelessWidget {
             backgroundColor: context.colorScheme.primary,
             leading:
                 IconButton(onPressed: () {
-                  SearchRecommendRoute().push(context);
+
                 }, icon: Icon(CupertinoIcons.search)),
             title: Text("FAVORITES"),
             centerTitle: true,

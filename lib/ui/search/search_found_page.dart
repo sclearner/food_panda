@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/blocs/search_bloc/search_bloc.dart';
 import 'package:food_panda/blocs/search_view_cubit/search_view_cubit.dart';
 import 'package:food_panda/extensions/media_query.dart';
+import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
 class SearchFoundPage extends StatefulWidget {
@@ -49,29 +51,77 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
     return BlocConsumer<SearchBloc, SearchState>(
         bloc: bloc,
         listener: (context, state) {
-          if (state.status == SearchStatus.found) _needMoreData = true;
+          if (state.status == SearchResultStatus.partial) _needMoreData = true;
         },
         builder: (context, state) {
           return BlocBuilder<SearchViewCubit, SearchViewMode>(
               builder: (context, mode) {
-            if (state.status == SearchStatus.notFound) return Text("Not found");
+                List<Widget> result;
+                if (state.isEmpty) {
+                  result = [
+                    SliverToBoxAdapter(
+                      child: Center(child: Text("Not found")),
+                    )
+                  ];
+                }
+                  else result = [
+                  SliverPadding(
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    sliver: SliverGrid.builder(
+                        key: ValueKey("search-result-list"),
+                        itemCount: state.menu.length,
+                        itemBuilder: (context, i) =>
+                            ProductCard(menu: state.menu[i]),
+                        gridDelegate: mode == SearchViewMode.list
+                            ? _listDelegate
+                            : _gridDelegate(context)),
+                  )
+                ];
             return CustomScrollView(
               controller: _controller,
               slivers: [
-                SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  sliver: SliverGrid.builder(
-                      key: ValueKey("search-result-list"),
-                      itemCount: state.menu.length,
-                      itemBuilder: (context, i) =>
-                          ProductCard(menu: state.menu[i]),
-                      gridDelegate: mode == SearchViewMode.list
-                          ? _listDelegate
-                          : _gridDelegate(context)),
-                ),
                 SliverToBoxAdapter(
-                  child: (state.status == SearchStatus.finding)
+                  child: Container(
+                    alignment: Alignment.bottomCenter,
+                    height: 165,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    color: context.colorScheme.secondary,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                                foregroundColor:
+                                context.colorScheme.onSecondary),
+                            icon: Icon(AppIcons.filter),
+                            label: Text("Filter")),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<SearchViewCubit>()
+                                      .changeTo(SearchViewMode.grid);
+                                },
+                                icon: Icon(AppIcons.grid)),
+                            IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<SearchViewCubit>()
+                                      .changeTo(SearchViewMode.list);
+                                },
+                                icon: Icon(AppIcons.list))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                ...result,
+                SliverToBoxAdapter(
+                  child: (state.isLoading)
                       ? Center(child: CircularProgressIndicator())
                       : SizedBox(),
                 )
@@ -84,7 +134,7 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
   void _onScroll() {
     if (_isBottom && _needMoreData) {
       _needMoreData = false;
-      context.read<SearchBloc>().add(const SearchRequestMore());
+      context.read<SearchBloc>().add(const SearchRequest());
     }
   }
 
@@ -92,6 +142,6 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
     if (!_controller.hasClients) return false;
     final maxScroll = _controller.position.maxScrollExtent;
     final currentScroll = _controller.offset;
-    return currentScroll >= (maxScroll * 0.8);
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

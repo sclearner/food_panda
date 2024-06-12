@@ -73,7 +73,9 @@ class HomeScreen extends StatelessWidget {
                           FilledButton(
                               onPressed: () {
                                 String keyword = context.read<SearchBloc>().state.keyword;
-                                if (keyword.isNotEmpty) SearchFoundRoute(input: keyword).push(context);
+                                if (keyword.isEmpty) return;
+                                context.read<SearchBloc>().add(SearchRequest());
+                                SearchRoute(keyword).push(context);
                               }, child: const Text("SEARCH"))
                         ],
                       ),
@@ -102,7 +104,9 @@ class HomeSearchBar extends StatelessWidget {
           bloc.add(SearchEditingKeyword(keyword));
         },
         onSubmitted: (keyword) {
-          if (keyword.isNotEmpty) SearchFoundRoute(input: keyword).push(context);
+          if (keyword.isEmpty) return;
+          bloc.add(SearchRequest());
+          SearchRoute(keyword).push(context);
         },
         leading: Icon(
           CupertinoIcons.search,

@@ -1,5 +1,77 @@
 part of 'search_page.dart';
 
+class SearchEditingAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  final BuildContext context;
+  final List<String> tabLabels;
+  final bool isCollapsed;
+  static const double collapsedHeight = 70;
+  double get _collapsedHeight => SearchEditingAppBar.collapsedHeight;
+  final double _expandedHeight = 120;
+
+  const SearchEditingAppBar({super.key, required this.context, required this.tabLabels, required this.isCollapsed});
+
+  SearchBloc get bloc => context.read<SearchBloc>();
+  SearchAppbarCubit get appbarCubit => context.read<SearchAppbarCubit>();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SearchAppbarCubit, bool>(builder: (context, isEditing) {
+      List<Widget> actions = (isEditing)
+          ? [
+              TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: context.colorScheme.onPrimary,
+                  ),
+                  onPressed: () {
+                    bloc.add(const SearchCancel());
+                    appbarCubit.submit();
+                    if (bloc.state.keyword.isEmpty) context.pop();
+                  },
+                  child: const Text("Cancel"))
+            ]
+          : [];
+      List<Widget> tabbar = (isEditing) ? [] : [
+        Flexible(
+          child: TabBar(
+            tabAlignment: TabAlignment.fill,
+            tabs: List.generate(
+                tabLabels.length,
+                    (i) => Tab(
+                  iconMargin: EdgeInsets.zero,
+                  text: tabLabels[i],
+                )),
+          ),
+        ),
+      ];
+      return Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+            color: context.colorScheme.primary,
+          borderRadius: isEditing ? BorderRadius.zero : const BorderRadius.vertical(bottom: Radius.circular(30))
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: _collapsedHeight,
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [Flexible(child: AppSearchBar()), ...actions],
+                ),
+              ),
+            ...tabbar
+          ],
+        ),
+      );
+    });
+  }
+
+  @override
+  Size get preferredSize => AppBar(
+          toolbarHeight: context.read<SearchAppbarCubit>().isEditing ? _collapsedHeight : _expandedHeight)
+      .preferredSize;
+}
+
 class SearchAppbar extends AppBar {
   final BuildContext context;
   final List<String> tabLabels;
@@ -16,36 +88,7 @@ class SearchAppbar extends AppBar {
               preferredSize: const Size.fromHeight(75),
               child: Stack(
                 children: [
-                  Container(
-                    alignment: Alignment.bottomCenter,
-                    height: 75,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    color: context.colorScheme.secondary,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton.icon(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                                foregroundColor:
-                                    context.colorScheme.onSecondary),
-                            icon: Icon(AppIcons.filter),
-                            label: Text("Filter")),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  context.read<SearchViewCubit>().changeTo(SearchViewMode.grid);
-                                }, icon: Icon(AppIcons.grid)),
-                            IconButton(
-                                onPressed: () {
-                                  context.read<SearchViewCubit>().changeTo(SearchViewMode.list);
-                                }, icon: Icon(AppIcons.list))
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+
                   Container(
                     height: 35,
                     alignment: Alignment.topCenter,
@@ -79,11 +122,16 @@ class _AppSearchBarState extends State<AppSearchBar> {
 
   SearchBloc get bloc => context.read<SearchBloc>();
 
+  SearchAppbarCubit get appbarCubit => context.read<SearchAppbarCubit>();
+
   @override
   void initState() {
     _controller = TextEditingController(text: bloc.state.keyword);
     _controller.addListener(() {
       bloc.add(SearchEditingKeyword(_controller.text));
+    });
+    appbarCubit.stream.listen((state) {
+      _controller.text = bloc.lastStateCommit.keyword;
     });
     super.initState();
   }
@@ -99,30 +147,38 @@ class _AppSearchBarState extends State<AppSearchBar> {
     return BlocBuilder<SearchBloc, SearchState>(
         bloc: context.read<SearchBloc>(),
         builder: (context, state) {
+          List<Widget> leading = (appbarCubit.isEditing)
+              ? []
+              : [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios),
+                    color: context.colorScheme.onSurface,
+                    onPressed: () {
+                      try {
+                        context.pop();
+                      } catch (e) {
+                        HomeRoute().push(context);
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                    child: VerticalDivider(
+                      width: 16,
+                      thickness: 1,
+                    ),
+                  ),
+                ];
           return SearchBar(
             hintText: "Search for address, food, drink and more",
             controller: _controller,
             leading: Row(
               children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    try {
-                      context.pop();
-                    }
-                    catch (e) {
-                      HomeRoute().push(context);
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                  child: VerticalDivider(
-                    width: 16,
-                    thickness: 1,
-                  ),
-                ),
-                Icon(CupertinoIcons.search)
+                ...leading,
+                Icon(
+                  CupertinoIcons.search,
+                  color: context.colorScheme.tertiary,
+                )
               ],
             ),
             trailing: [
@@ -138,11 +194,16 @@ class _AppSearchBarState extends State<AppSearchBar> {
                     ],
                   ))
             ],
+            onTap: () {
+              appbarCubit.edit();
+            },
             onChanged: (keyword) {
               bloc.add(SearchEditingKeyword(keyword));
+              appbarCubit.edit();
             },
             onSubmitted: (keyword) {
-              SearchFoundRoute(input: keyword).pushReplacement(context);
+              bloc.add(SearchRequest());
+              appbarCubit.submit();
             },
           );
         });

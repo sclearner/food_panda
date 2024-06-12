@@ -85,46 +85,16 @@ class SettingsRoute extends GoRouteData with LoginRedirect {
   }
 }
 
-@TypedShellRoute<SearchRoute>(
-  routes: [
-    TypedGoRoute<SearchFoundRoute>(path: "/search/:input"),
-    TypedGoRoute<SearchRecommendRoute>(path: "/search")
-  ]
-)
-class SearchRoute extends ShellRouteData {
-  const SearchRoute();
+@TypedGoRoute<SearchRoute>(path: "/search")
+class SearchRoute extends GoRouteData {
+  const SearchRoute(this.q);
+  final String? q;
 
   static final NavigatorKey $parentNavigatorKey = rootNavigatorKey;
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget child) {
-    return SearchScreen(content: child);
-  }
-
-
-}
-
-class SearchFoundRoute extends GoRouteData with LoginRedirect {
-  final String input;
-  SearchFoundRoute({required this.input});
-
-  @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SearchFoundPage();
-  }
-
-  @override
-  Future<String?> redirect(BuildContext context, GoRouterState state) async {
-    if (input.trim().isEmpty) return "/search";
-    context.read<SearchBloc>().add(SearchSubmitted(input));
-    return null;
-  }
-}
-
-class SearchRecommendRoute extends GoRouteData with LoginRedirect {
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return SearchRecommendPage();
+    return SearchScreen(keyword: q);
   }
 }
 

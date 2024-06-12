@@ -28,7 +28,7 @@ final appTheme = ThemeData(
         backgroundColor: MaterialStatePropertyAll(appColorScheme.surface),
         surfaceTintColor: MaterialStatePropertyAll(appColorScheme.surface),
         shape: MaterialStatePropertyAll(
-            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(4))),
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(16))),
         constraints: BoxConstraints(minHeight: 51),
         padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
         textStyle: MaterialStatePropertyAll(
