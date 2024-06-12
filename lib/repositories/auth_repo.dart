@@ -10,6 +10,7 @@ class AuthRepo {
   final AuthApi _api = const AuthApi();
 
   Stream<AuthStatus> get status async* {
+    await Future.delayed(const Duration(seconds: 5));
     yield await getAccessToken();
     yield* _controller.stream;
   }
@@ -41,8 +42,12 @@ class AuthRepo {
     }
   }
 
-  void logOut() {
-    _controller.add(AuthStatus.unauth);
+  void logOut() async {
+      try {
+        await AuthApi.logout(refreshToken: prefs.getString('refreshToken')!);
+      } finally {
+        _controller.add(AuthStatus.unauth);
+      }
   }
 
   void dispose() => _controller.close();

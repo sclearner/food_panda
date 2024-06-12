@@ -6,6 +6,7 @@ import 'package:food_panda/blocs/product_bloc/product_bloc.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/models/menu.dart';
 import 'package:food_panda/repositories/product_repo.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/components/dish_bar/dish_bar.dart';
 import 'package:food_panda/shared_ui/components/photo_gallery/photo_gallery.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
@@ -13,6 +14,7 @@ import 'package:food_panda/shared_ui/components/review_bar/review_bar.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 import 'package:food_panda/ui/product/product/product_cover_gallery.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 part 'product_details.dart';
@@ -28,7 +30,7 @@ part 'product_review.dart';
 class ProductScreen extends StatelessWidget {
   final String productId;
   final Menu? menu;
-  final ProductRepo _productRepo = const ProductRepo();
+  final ProductRepo _productRepo = ProductRepo();
 
   ProductScreen({super.key, required this.productId, this.menu});
 
@@ -106,7 +108,9 @@ class ProductScreen extends StatelessWidget {
                 });
           }),
           bottomSheet: FilledButton(
-            onPressed: () {},
+            onPressed: () {
+              BookRoute(productId: productId).push(context);
+            },
             style: FilledButton.styleFrom(fixedSize: Size.fromHeight(54)),
             child: Center(
               child: Text("BOOK A TABLE"),

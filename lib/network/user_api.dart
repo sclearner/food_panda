@@ -8,9 +8,7 @@ class UserApi {
 
   Future<User?> getUserInfo({required String accessToken}) async {
     try {
-      final response = await dio.get('/user', options: Options(
-        headers: {'Authorization': 'Bearer $accessToken'}
-      ));
+      final response = await dio.get('/user');
       if (response.statusCode == 200) {
         return User.fromJson(response.data);
       }

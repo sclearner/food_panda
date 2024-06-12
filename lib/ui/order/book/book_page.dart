@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/ui/order/success/order_success_page.dart';
 import 'package:intl/intl.dart';
 
@@ -13,8 +14,9 @@ part 'book_menu.dart';
 
 class BookScreen extends StatelessWidget {
   late final DateTime _today;
+  final String productId;
 
-  BookScreen({super.key})
+  BookScreen({super.key, required this.productId})
       : _today = (() {
           return DateTime.now();
         })();
@@ -167,14 +169,22 @@ class BookScreen extends StatelessWidget {
               style: context.textTheme.titleLarge
                   ?.copyWith(color: context.colorScheme.onPrimary),
             ),
-            Row(
-              children: [
-                Text("ORDER",
-                    style: context.textTheme.titleLarge
-                        ?.copyWith(color: context.colorScheme.onPrimary)),
-                SizedBox(width: 5),
-                Icon(Icons.arrow_forward)
-              ],
+            TextButton(
+              onPressed: () {
+                BillingRoute(productId: productId).push(context);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: context.colorScheme.onPrimary
+              ),
+              child: Row(
+                children: [
+                  Text("ORDER",
+                      style: context.textTheme.titleLarge
+                          ?.copyWith(color: context.colorScheme.onPrimary)),
+                  SizedBox(width: 5),
+                  Icon(Icons.arrow_forward)
+                ],
+              ),
             )
           ],
         ),

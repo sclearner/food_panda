@@ -15,7 +15,7 @@ class LoginRoute extends GoRouteData with LoginReverseRedirect {
 }
 
 @TypedStatefulShellRoute<MainRoute>(branches: [
-  TypedStatefulShellBranch(routes: [TypedGoRoute<HomeRoute>(path: '/')]),
+  TypedStatefulShellBranch(routes: [TypedGoRoute<HomeRoute>(path: '/home')]),
   TypedStatefulShellBranch(
       routes: [TypedGoRoute<HistoryRoute>(path: '/history')]),
   TypedStatefulShellBranch(
@@ -157,7 +157,7 @@ class BookRoute extends GoRouteData with LoginRedirect {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BookScreen();
+    return BookScreen(productId: productId);
   }
 }
 
@@ -206,6 +206,19 @@ class BillingSettingsRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return BillingScreen();
+  }
+}
+
+@TypedGoRoute<SplashRoute>(path: '/')
+class SplashRoute extends GoRouteData {
+  final String? redirectLink;
+  const SplashRoute({this.redirectLink});
+
+  static final NavigatorKey $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SplashScreen(redirectLink: redirectLink);
   }
 }
 

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
 import 'package:food_panda/blocs/login_bloc/login_bloc.dart';

@@ -6,6 +6,7 @@ part 'user.g.dart';
 @JsonSerializable()
 class User extends Equatable {
   const User({this.name, this.email, this.avatarUrl, this.id, this.dob});
+  @JsonKey(name: "_id")
   final String? id;
   final String? name;
   final String? email;

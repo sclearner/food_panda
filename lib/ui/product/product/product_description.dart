@@ -4,7 +4,7 @@ class ProductDescription extends StatelessWidget {
   bool _isFull = false;
   final int _lengthLimit = 200;
 
-  // link(lat, long) => 'https://maps.google.com/maps?q=$lat,$long';
+  link(lat, long) => 'https://maps.google.com/maps?q=$lat,$long';
   //
   // controller(double lat, double long) =>
   //     WebViewController()
@@ -44,10 +44,21 @@ class ProductDescription extends StatelessWidget {
                   LatLng(state.menu!.latitude!, state.menu!.longitude!);
               return FlutterMap(
                   options: MapOptions(initialCenter: position),
+                  mapController: MapController(),
                   children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.foodpanda.food_panda',
+                    ),
                     MarkerLayer(markers: [
-                      Marker(point: position, child: const Text(""))
-                    ])
+                      Marker(
+                          point: position,
+                          child: const Icon(Icons.location_pin,
+                              color: AppColors.viettelRed),
+                          alignment: Alignment.center)
+                    ]),
+
                   ]);
               // return WebViewWidget(controller: controller(
               //     state.menu!.latitude!, state.menu!.longitude!));

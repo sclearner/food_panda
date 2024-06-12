@@ -10,13 +10,11 @@ import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/theme/theme.dart';
 
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'network/base_api.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: ".env");
-  prefs = await SharedPreferences.getInstance();
+  await startDio();
   usePathUrlStrategy();
   runApp(const App());
 }

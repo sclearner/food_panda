@@ -13,8 +13,7 @@ import 'package:go_router/go_router.dart';
 
 ///Trang settings của ứng dụng
 class SettingsScreen extends StatelessWidget {
-  List<Widget> _settingsListTiles(BuildContext context) =>
-      [
+  List<Widget> _settingsListTiles(BuildContext context) => [
         ListTile(
           onTap: () {
             MainRoute.mainScreenKey.currentState
@@ -69,52 +68,60 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          height: 278,
-          padding: const EdgeInsets.all(25),
-          alignment: Alignment.bottomLeft,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.none,
-                alignment: const Alignment(-0.95, -0.5),
-                repeat: ImageRepeat.repeat,
-                image: const AssetImage(GraphicAssets.settingsBackgroundEffect),
-                colorFilter: ColorFilter.mode(
-                    context.colorScheme.primary, BlendMode.modulate),
-              )),
-          child: Row(
-            children: [
-              const UserAvatar(radius: 33.5),
-              const SizedBox(width: 10),
-              BlocBuilder<AuthBloc, AuthState>(
-                builder: (context, state) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        state.user.name ?? "New User",
-                        style: context.textTheme.headlineLarge?.copyWith(
-                          color: context.colorScheme.onPrimary,
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+            expandedHeight: 278,
+            flexibleSpace: FlexibleSpaceBar(
+              background: DecoratedBox(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  fit: BoxFit.none,
+                  alignment: const Alignment(-0.95, -0.5),
+                  repeat: ImageRepeat.repeat,
+                  image:
+                      const AssetImage(GraphicAssets.settingsBackgroundEffect),
+                  colorFilter: ColorFilter.mode(
+                      context.colorScheme.primary, BlendMode.modulate),
+                )),
+              ),
+              titlePadding: const EdgeInsets.fromLTRB(25, 10, 10, 38),
+              title: Row(
+                children: [
+                  const UserAvatar(radius: 33.5),
+                  const SizedBox(width: 10),
+                  BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.user.name ?? "New User",
+                          style: context.textTheme.headlineLarge?.copyWith(
+                            color: context.colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                      Text(
-                        state.user.email ?? "No email",
-                        style: context.textTheme.headlineSmall
-                            ?.copyWith(color: context.colorScheme.onPrimary),
-                      )
-                    ],
-                  );
-                }
+                        Text(
+                          state.user.email ?? "No email",
+                          style: context.textTheme.headlineSmall
+                              ?.copyWith(color: context.colorScheme.onPrimary),
+                        )
+                      ],
+                    );
+                  })
+                ],
+              ),
+              expandedTitleScale: 1,
+            )),
+        SliverToBoxAdapter(
+          child: Column(
+            children: [
+              ..._settingsListTiles(context),
+              Center(
+                child: SignOutButton(),
               )
             ],
           ),
-        ),
-        ..._settingsListTiles(context),
-        Center(
-          child: SignOutButton(),
         )
       ],
     );
@@ -134,23 +141,36 @@ class SignOutButton extends StatelessWidget {
   }
 
   void _handlePressed(BuildContext context) async {
-    await showDialog(context: context, builder: (context) =>
-        BlocListener<AuthBloc, AuthState>(
-          listener: (BuildContext context, state) {
-            if (state.status == AuthStatus.unauth) LoginRoute().go(context);
-          },
-          child: AlertDialog(
-            title: const Text("Log out"),
-            content: const Text("Do you want to log out?"),
-            actions: [
-              TextButton(onPressed: () {
-                context.read<AuthRepo>().logOut();
-              }, child: const Text("OK")),
-              TextButton(onPressed: () {
-                context.pop();
-              }, child: const Text("Cancel"))
-            ],
-          ),
-        ));
+    var isOk = false;
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => BlocListener<AuthBloc, AuthState>(
+              listener: (BuildContext context, state) {
+                if (state.status == AuthStatus.unauth) LoginRoute().go(context);
+              },
+              child: StatefulBuilder(builder: (context, setState) {
+                return AlertDialog(
+                  title: const Text("Log out"),
+                  content: const Text("Do you want to log out?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          setState(() => isOk = true);
+                          context.read<AuthRepo>().logOut();
+                        },
+                        child:
+                            isOk ? CircularProgressIndicator() : Text("OK")),
+                    isOk
+                        ? SizedBox()
+                        : TextButton(
+                            onPressed: () {
+                              context.pop();
+                            },
+                            child: const Text("Cancel"))
+                  ],
+                );
+              }),
+            ));
   }
 }

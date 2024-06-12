@@ -45,7 +45,6 @@ class MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      extendBody: true,
       resizeToAvoidBottomInset: false,
       body: TabBarView(
           controller: _controller,

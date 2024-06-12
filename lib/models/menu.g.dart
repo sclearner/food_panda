@@ -7,7 +7,7 @@ part of 'menu.dart';
 // **************************************************************************
 
 Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
-      id: json['id'] as String,
+      id: json['_id'] as String,
       title: json['title'] as String,
       subtitle: json['subtitle'] as String,
       reviewStar: (json['reviewStar'] as num?)?.toDouble(),
@@ -30,7 +30,7 @@ Menu _$MenuFromJson(Map<String, dynamic> json) => Menu(
     );
 
 Map<String, dynamic> _$MenuToJson(Menu instance) => <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'title': instance.title,
       'subtitle': instance.subtitle,
       'reviewStar': instance.reviewStar,

@@ -72,7 +72,8 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(height: 15),
                           FilledButton(
                               onPressed: () {
-                                SearchFoundRoute(input: context.read<SearchBloc>().state.keyword).push(context);
+                                String keyword = context.read<SearchBloc>().state.keyword;
+                                if (keyword.isNotEmpty) SearchFoundRoute(input: keyword).push(context);
                               }, child: const Text("SEARCH"))
                         ],
                       ),

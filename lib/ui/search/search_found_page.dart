@@ -54,6 +54,7 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
         builder: (context, state) {
           return BlocBuilder<SearchViewCubit, SearchViewMode>(
               builder: (context, mode) {
+            if (state.status == SearchStatus.notFound) return Text("Not found");
             return CustomScrollView(
               controller: _controller,
               slivers: [

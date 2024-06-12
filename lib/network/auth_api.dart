@@ -50,4 +50,15 @@ class AuthApi {
       rethrow;
     }
   }
+
+  static Future<void> logout({required String refreshToken}) async {
+    try {
+      dio.delete('/auth/logout', data: {
+        refreshToken: refreshToken
+      });
+    } finally {
+      prefs.remove('accessToken');
+      prefs.remove('refreshToken');
+    }
+  }
 }

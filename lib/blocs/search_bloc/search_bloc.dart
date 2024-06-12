@@ -34,11 +34,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
     try {
       emit(state.clearSearchResult().copyWith(status: SearchStatus.finding, lastKeyword: keyword, keyword: keyword));
-      List<Menu> menu = await _searchRepo.search(keyword, offset: state.menu.length);
-      emit(state.copyWith(status: SearchStatus.found).addToMenu(menu));
+      List<Menu>? menu = await _searchRepo.search(keyword, offset: state.menu.length);
+      emit(state.copyWith(status: SearchStatus.found).addToMenu(menu!));
     }
     catch (error) {
-      print(error);
       if (state.menu.isEmpty) {
         emit(state.copyWith(status: SearchStatus.notFound));
       } else {
@@ -50,8 +49,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   Future<void> _onSearchRequestMore(SearchRequestMore event, Emitter<SearchState> emit) async {
     try {
       emit(state.copyWith(status: SearchStatus.finding));
-      List<Menu> menu = await _searchRepo.search(state.keyword, offset: state.menu.length);
-      emit(state.addToMenu(menu));
+      List<Menu>? menu = await _searchRepo.search(state.keyword, offset: state.menu.length);
+      emit(state.addToMenu(menu!));
     }
     catch (error) {
       print(error);

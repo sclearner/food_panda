@@ -64,21 +64,47 @@ class _LoginFormState extends State<LoginForm>
                     buildWhen: (p, c) => p.status != c.status,
                     builder: (context, state) {
                       return FilledButton(
-                          onPressed: (LoginStatus.waiting != state.status)
-                              ? () async {
-                                  context
-                                      .read<LoginBloc>()
-                                      .add(const LoginValidated());
-                                  context
-                                      .read<LoginBloc>()
-                                      .add(const LoginSubmitted());
-                                }
-                              : null,
-                          child: state.status == LoginStatus.waiting
-                              ? CircularProgressIndicator(
-                                  color: context.colorScheme.onPrimary,
-                                )
-                              : const Text("LOGIN"));
+                        onPressed: (LoginStatus.waiting != state.status)
+                            ? () async {
+                                context
+                                    .read<LoginBloc>()
+                                    .add(const LoginValidated());
+                                context
+                                    .read<LoginBloc>()
+                                    .add(const LoginSubmitted());
+                              }
+                            : null,
+                        style: FilledButton.styleFrom(
+                            foregroundColor: context.colorScheme.onPrimary,
+                            backgroundColor:
+                                (state.status == LoginStatus.success)
+                                    ? Colors.lightGreen
+                                    : null),
+                        child: Builder(builder: (context) {
+                          if (state.status == LoginStatus.waiting) {
+                            return FutureBuilder(
+                              future: Future.delayed(5.seconds).then((value) => 1),
+                              builder: (context, snapshot) {
+                                List<Widget> longerThanUsual = (snapshot.hasData) ? [
+                                  const SizedBox(height: 10, width: 10),
+                                  const Text("Login is longer than usual."),
+                                ] : [];
+                                return OverflowBar(
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: context.colorScheme.onPrimary,
+                                    ),
+                                    ...longerThanUsual
+                                  ],
+                                );
+                              }
+                            );
+                          } else if (state.status == LoginStatus.success)
+                            return const Center(child: Icon(Icons.check));
+                          else
+                            return const Text("LOGIN");
+                        }),
+                      );
                     }),
               )
             ],
@@ -109,9 +135,11 @@ mixin class UsernameStateBuilder {
   final FocusNode _usernameNode = FocusNode();
 
   bool _usernameBuildWhen(LoginState previous, LoginState current) =>
-      current.status != LoginStatus.initial &&
-      (previous.username != current.username ||
-          !listEquals(previous.exceptions, current.exceptions));
+      (current.status != LoginStatus.initial &&
+          (previous.username != current.username ||
+              !listEquals(previous.exceptions, current.exceptions))) ||
+      (current.status == LoginStatus.waiting ||
+          previous.status == LoginStatus.waiting);
 
   Widget _usernameBuilder(BuildContext context, LoginState state) {
     final usernameException = state.exceptions
@@ -119,6 +147,7 @@ mixin class UsernameStateBuilder {
         .map((e) => e.message);
     return StatefulBuilder(builder: (context, _) {
       return TextFormField(
+          enabled: state.status != LoginStatus.waiting,
           key: ValueKey("login_username_field"),
           controller: _usernameController,
           style: const TextStyle(color: AppColors.white),
@@ -128,7 +157,8 @@ mixin class UsernameStateBuilder {
           keyboardType: TextInputType.name,
           autofillHints: const [AutofillHints.username],
           onTapOutside: (_) {
-            context.read<LoginBloc>().add(const LoginValidated());
+            if (state.status != LoginStatus.waiting)
+              context.read<LoginBloc>().add(const LoginValidated());
             _usernameNode.unfocus();
           },
           textInputAction: TextInputAction.next,
@@ -148,8 +178,10 @@ mixin class PasswordStateBuilder {
 
   bool _passwordBuildWhen(LoginState previous, LoginState current) =>
       current.status != LoginStatus.initial &&
-      (previous.password != current.password ||
-          !listEquals(previous.exceptions, current.exceptions));
+          (previous.password != current.password ||
+              !listEquals(previous.exceptions, current.exceptions)) ||
+      (current.status == LoginStatus.waiting ||
+          previous.status == LoginStatus.waiting);
 
   Widget _passwordBuilder(BuildContext context, LoginState state) {
     final passwordException = state.exceptions
@@ -159,6 +191,7 @@ mixin class PasswordStateBuilder {
       return TextFormField(
           key: ValueKey("login_password_field"),
           controller: _passwordController,
+          enabled: state.status != LoginStatus.waiting,
           style: const TextStyle(color: AppColors.white),
           onChanged: (password) =>
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
@@ -169,7 +202,8 @@ mixin class PasswordStateBuilder {
           keyboardType: TextInputType.visiblePassword,
           autofillHints: const [AutofillHints.password],
           onTapOutside: (_) {
-            context.read<LoginBloc>().add(const LoginValidated());
+            if (state.status != LoginStatus.waiting)
+              context.read<LoginBloc>().add(const LoginValidated());
             _passwordNode.unfocus();
           },
           onFieldSubmitted: (password) {

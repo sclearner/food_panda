@@ -12,6 +12,7 @@ List<RouteBase> get $appRoutes => [
       $searchRoute,
       $productRoute,
       $billingSettingsRoute,
+      $splashRoute,
     ];
 
 RouteBase get $loginRoute => GoRouteData.$route(
@@ -45,7 +46,7 @@ RouteBase get $mainRoute => StatefulShellRouteData.$route(
         StatefulShellBranchData.$branch(
           routes: [
             GoRouteData.$route(
-              path: '/',
+              path: '/home',
               factory: $HomeRouteExtension._fromState,
             ),
           ],
@@ -93,7 +94,7 @@ extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => HomeRoute();
 
   String get location => GoRouteData.$location(
-        '/',
+        '/home',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -369,6 +370,34 @@ extension $BillingSettingsRouteExtension on BillingSettingsRoute {
 
   String get location => GoRouteData.$location(
         '/settings/billing',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $splashRoute => GoRouteData.$route(
+      path: '/',
+      parentNavigatorKey: SplashRoute.$parentNavigatorKey,
+      factory: $SplashRouteExtension._fromState,
+    );
+
+extension $SplashRouteExtension on SplashRoute {
+  static SplashRoute _fromState(GoRouterState state) => SplashRoute(
+        redirectLink: state.uri.queryParameters['redirect-link'],
+      );
+
+  String get location => GoRouteData.$location(
+        '/',
+        queryParams: {
+          if (redirectLink != null) 'redirect-link': redirectLink,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
