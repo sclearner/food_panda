@@ -6,21 +6,21 @@ import 'package:food_panda/network/search_api.dart';
 
 class SearchRepo {
   String? keyword;
-  final SearchApi _api = SearchApi();
+  final SearchApi _api = const SearchApi();
   final SearchLocalStorage _localStorage = SearchLocalStorage();
 
   Future<List<Menu>?> search(String input, {int offset = 0, int limit = 10}) async {
     keyword = input;
     try {
       return await _api.search(keyword: input, offset: offset, limit: limit);
-    } on Exception catch (e) {
+    } on Exception {
       rethrow;
     }
   }
 
   Future<List<String>> getSearchHistory([int limit=10]) async {
     try {
-      return await _localStorage.readSearchHistory(limit) ?? [];
+      return await _localStorage.readSearchHistory(limit);
     }
     catch (e) {
       return [];

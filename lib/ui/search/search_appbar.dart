@@ -57,7 +57,7 @@ class SearchEditingAppBar extends StatelessWidget
                 height: _collapsedHeight,
                   padding: const EdgeInsets.all(10),
                   child: Row(
-                    children: [Flexible(child: AppSearchBar()), ...actions],
+                    children: [const Flexible(child: AppSearchBar()), ...actions],
                   ),
                 ),
               ...tabbar
@@ -114,6 +114,8 @@ class SearchEditingAppBar extends StatelessWidget
 // }
 
 class AppSearchBar extends StatefulWidget {
+  const AppSearchBar({super.key});
+
   @override
   State<AppSearchBar> createState() => _AppSearchBarState();
 }
@@ -155,7 +157,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
               ? []
               : [
                   IconButton(
-                    icon: Icon(Icons.arrow_back_ios),
+                    icon: const Icon(Icons.arrow_back_ios),
                     color: context.colorScheme.onSurface,
                     onPressed: () {
                       try {
@@ -194,7 +196,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
                         AppIcons.locationPin,
                         color: context.colorScheme.primary,
                       ),
-                      Text("Việt Nam")
+                      const Text("Việt Nam")
                     ],
                   ))
             ],
@@ -206,7 +208,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
               appbarCubit.edit();
             },
             onSubmitted: (keyword) async {
-              bloc.add(SearchRequest());
+              bloc.add(const SearchRequest());
               await Future.delayed(100.microseconds);
               appbarCubit.submit();
             },

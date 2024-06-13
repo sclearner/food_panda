@@ -7,13 +7,13 @@ class ProductPhotoGallery extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
-        if (state.menu?.gallery == null) return SizedBox();
-        if (state.menu!.gallery!.isEmpty) return SizedBox();
+        if (state.menu?.gallery == null) return const SizedBox();
+        if (state.menu!.gallery!.isEmpty) return const SizedBox();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text("PHOTOS"),
             ),
             PhotoGallery(images: state.menu!.gallery!,)

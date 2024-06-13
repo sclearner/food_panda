@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +13,8 @@ import 'package:food_panda/shared_ui/theme/colors.dart';
 
 class HomeScreen extends StatelessWidget {
   static const double _verticalPadding = 45;
+
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                 slivers: [
                   SliverAppBar(
                     backgroundColor: Colors.transparent,
-                    leading: Align(
+                    leading: const Align(
                       alignment: Alignment.center,
                       child: UserAvatar(),
                     ),
@@ -72,13 +72,13 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Column(
                           children: [
-                            HomeSearchBar(),
+                            const HomeSearchBar(),
                             const SizedBox(height: 15),
                             FilledButton(
                                 onPressed: () {
                                   String keyword = context.read<SearchBloc>().state.keyword;
                                   if (keyword.isEmpty) return;
-                                  context.read<SearchBloc>().add(SearchRequest());
+                                  context.read<SearchBloc>().add(const SearchRequest());
                                   SearchRoute(keyword).push(context);
                                 }, child: const Text("SEARCH"))
                           ],
@@ -134,7 +134,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
         hintText: "Search for address, food, drink and more",
         onSubmitted: (keyword) {
           if (keyword.isEmpty) return;
-          bloc.add(SearchRequest());
+          bloc.add(const SearchRequest());
           SearchRoute(keyword).push(context);
         },
         leading: Icon(

@@ -23,7 +23,7 @@ class ReviewScreen extends StatelessWidget {
             sliver: SliverList.separated(
               itemBuilder:(context, i) => Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ReviewBar()),
+                  child: const ReviewBar()),
               separatorBuilder: (BuildContext context, int index) => const Divider(),),
             ),
         ],

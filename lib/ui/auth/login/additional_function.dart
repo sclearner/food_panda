@@ -37,7 +37,7 @@ class AdditionalFunction extends StatelessWidget with AdditionalFunctions {
                   padding: EdgeInsets.zero,
                   splashFactory: NoSplash.splashFactory,
                 ),
-                child: Text("Sign up"))
+                child: const Text("Sign up"))
           ],
         ),
       )

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:food_panda/exceptions/auth_exception.dart';
 import 'package:food_panda/models/user.dart';
 import 'package:food_panda/network/base_api.dart';
 
@@ -13,7 +12,7 @@ class UserApi {
         return User.fromJson(response.data);
       }
       return null;
-    } on DioException catch (e) {
+    } on DioException {
       rethrow;
     } catch (e) {
       rethrow;

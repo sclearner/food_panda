@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/blocs/product_bloc/product_bloc.dart';
 
 class ProductCoverGallery extends StatefulWidget {
-  ProductState state;
+  final ProductState state;
 
-  ProductCoverGallery({super.key, required this.state});
+  const ProductCoverGallery({super.key, required this.state});
 
   @override
   State<ProductCoverGallery> createState() => _ProductCoverGalleryState();
@@ -34,7 +34,7 @@ class _ProductCoverGalleryState extends State<ProductCoverGallery> {
                     image:
                         NetworkImage(widget.state.menu!.gallery![_imageIndex]),
                     fit: BoxFit.cover)),
-            duration: Duration(milliseconds: 1000),
+            duration: const Duration(milliseconds: 1000),
           );
         });
   }

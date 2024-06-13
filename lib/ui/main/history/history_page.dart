@@ -14,15 +14,15 @@ class HistoryScreen extends StatelessWidget {
       slivers: [
         SliverAppBar(
           leading:
-              IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search)),
+              IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
           title: const Text("ORDER HISTORY"),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.settings))],
+          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.settings))],
           centerTitle: true,
         ),
         SliverPadding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           sliver: SliverList.builder(
-            itemBuilder: (context, i) => HistoryBadge(),
+            itemBuilder: (context, i) => const HistoryBadge(),
           ),
         )
       ],
@@ -44,11 +44,11 @@ class HistoryBadge extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FlutterLogo(),
+                const FlutterLogo(),
                 ProductDetail(height: 60),
               ],
             ),
-            Divider(),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -59,7 +59,7 @@ class HistoryBadge extends StatelessWidget {
                         .format(DateTime.now()))
                   ],
                 ),
-                Text("\$1,000,000.00")
+                const Text("\$1,000,000.00")
               ],
             )
           ],

@@ -9,7 +9,7 @@ class Dish extends Equatable {
   final double price;
   final String image;
 
-  Dish({required this.name, required this.price, required this.image});
+  const Dish({required this.name, required this.price, required this.image});
 
   @override
   List<Object?> get props => [name, price, image];

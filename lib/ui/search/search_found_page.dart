@@ -10,6 +10,8 @@ import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
 class SearchFoundPage extends StatefulWidget {
+  const SearchFoundPage({super.key});
+
   @override
   State<SearchFoundPage> createState() => _SearchFoundPageState();
 }
@@ -59,17 +61,18 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                 List<Widget> result;
                 if (state.isEmpty) {
                   result = [
-                    SliverToBoxAdapter(
+                    const SliverToBoxAdapter(
                       child: Center(child: Text("Not found")),
                     )
                   ];
                 }
-                  else result = [
+                  else {
+                  result = [
                   SliverPadding(
                     padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     sliver: SliverGrid.builder(
-                        key: ValueKey("search-result-list"),
+                        key: const ValueKey("search-result-list"),
                         itemCount: state.menu.length,
                         itemBuilder: (context, i) =>
                             ProductCard(menu: state.menu[i]),
@@ -78,6 +81,7 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                             : _gridDelegate(context)),
                   )
                 ];
+                }
             return CustomScrollView(
               controller: _controller,
               slivers: [
@@ -95,8 +99,8 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                               style: TextButton.styleFrom(
                                   foregroundColor:
                                   context.colorScheme.onSecondary),
-                              icon: Icon(AppIcons.filter),
-                              label: Text("Filter")),
+                              icon: const Icon(AppIcons.filter),
+                              label: const Text("Filter")),
                           Row(
                             children: [
                               IconButton(
@@ -105,14 +109,14 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                                         .read<SearchViewCubit>()
                                         .changeTo(SearchViewMode.grid);
                                   },
-                                  icon: Icon(AppIcons.grid)),
+                                  icon: const Icon(AppIcons.grid)),
                               IconButton(
                                   onPressed: () {
                                     context
                                         .read<SearchViewCubit>()
                                         .changeTo(SearchViewMode.list);
                                   },
-                                  icon: Icon(AppIcons.list))
+                                  icon: const Icon(AppIcons.list))
                             ],
                           )
                         ],
@@ -123,8 +127,8 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                 ...result,
                 SliverToBoxAdapter(
                   child: (state.isLoading)
-                      ? Center(child: CircularProgressIndicator())
-                      : SizedBox(),
+                      ? const Center(child: CircularProgressIndicator())
+                      : const SizedBox(),
                 )
               ],
             );

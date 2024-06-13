@@ -84,7 +84,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   void onChange(Change<LoginState> change) {
     super.onChange(change);
-    print(
-        "State: ${change.nextState.status}\n\tusername: ${change.nextState.username}\n\tpassword: ${change.nextState.password}\n\texception: ${change.nextState.exceptions.length}\n");
   }
 }

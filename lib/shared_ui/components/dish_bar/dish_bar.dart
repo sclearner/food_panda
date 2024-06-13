@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
 
 class DishBar extends StatelessWidget {
+  const DishBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -14,7 +14,6 @@ final dio = Dio(BaseOptions(
 
 final _refreshTokenInterceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
-      print(options.path);
       if (options.path.contains('auth')) return handler.next(options);
       String? accessToken = prefs.getString('accessToken');
       String? refreshToken = prefs.getString('refreshToken');
@@ -29,7 +28,7 @@ final _refreshTokenInterceptor = InterceptorsWrapper(
       } on Exception {
         try {
           final data =
-              await AuthApi.getAccessToken(refreshToken: refreshToken!);
+              await AuthApi.getAccessToken(refreshToken: refreshToken);
           if (data?["accessToken"] != null) {
             options.headers['Authorization'] = "Bearer ${data!["accessToken"]}";
             await prefs.setString('accessToken', data["accessToken"]);
@@ -38,7 +37,7 @@ final _refreshTokenInterceptor = InterceptorsWrapper(
           }
           return handler.next(options);
         } on DioException catch (error) {
-          AuthApi.logout(refreshToken: refreshToken!);
+          AuthApi.logout(refreshToken: refreshToken);
           return handler.reject(error, true);
         }
       }

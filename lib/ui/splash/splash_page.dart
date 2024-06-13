@@ -22,7 +22,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final double _logoLeft = -21;
 
-  final double _logoHeight = 424;
 
   double _alignmentX = 1000;
 
@@ -49,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     builder: (context, snapshot) {
                       List<Widget> longerThanUsual = (snapshot.hasData)
                           ? [
-                              Center(
+                              const Center(
                                 child: Text(
                                     "Connecting to server is longer than usual"),
                               )

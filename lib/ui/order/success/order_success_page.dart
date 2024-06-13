@@ -4,7 +4,7 @@ import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 
 class OrderSuccessScreen extends Page {
-  OrderSuccessScreen({super.key});
+  const OrderSuccessScreen({super.key});
 
   @override
   Route createRoute(BuildContext context) {
@@ -12,24 +12,26 @@ class OrderSuccessScreen extends Page {
       context: context,
       barrierColor: context.colorScheme.onSurface.withOpacity(0.75),
       settings: this,
-      builder: (_) => OrderSuccessBody(),
+      builder: (_) => const OrderSuccessBody(),
     );
   }
 
 }
 
 class OrderSuccessBody extends StatelessWidget {
+  const OrderSuccessBody({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: context.width * 0.75,
       height: context.height * 0.8,
       child: Column(
         children: [
           Image.asset(GraphicAssets.mascot),
-          Text("Thank you!"),
-          Text("Your order is successfully"),
-          FilledButton(onPressed: () {}, child: Text("OK"))
+          const Text("Thank you!"),
+          const Text("Your order is successfully"),
+          FilledButton(onPressed: () {}, child: const Text("OK"))
         ],
       ),
     );

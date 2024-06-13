@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:food_panda/shared_ui/components/photo_gallery/photo_gallery.dart';
 import 'package:food_panda/shared_ui/components/review_bar/review_star_bar.dart';
 
 class ReviewBar extends StatelessWidget {
+  const ReviewBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Row(
+    return const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: CircleAvatar(
             radius: 42 / 2,
           ),
@@ -23,7 +24,7 @@ class ReviewBar extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [Text("ABC"), Text("2 hours ago")],
                     ),

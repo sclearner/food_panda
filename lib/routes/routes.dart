@@ -53,35 +53,35 @@ class MainRoute extends StatefulShellRouteData {
 class HomeRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return HomeScreen();
+    return const HomeScreen();
   }
 }
 
 class HistoryRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return HistoryScreen();
+    return const HistoryScreen();
   }
 }
 
 class FavoritesRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return FavoritesScreen();
+    return const FavoritesScreen();
   }
 }
 
 class NotificationsRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return NotificationScreen();
+    return const NotificationScreen();
   }
 }
 
 class SettingsRoute extends GoRouteData with LoginRedirect {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SettingsScreen();
+    return const SettingsScreen();
   }
 }
 
@@ -139,7 +139,7 @@ class CategoriesRoute extends GoRouteData with LoginRedirect {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return CategoriesScreen();
+    return const CategoriesScreen();
   }
 }
 
@@ -151,7 +151,7 @@ class BillingRoute extends GoRouteData with LoginRedirect {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BillingScreen();
+    return const BillingScreen();
   }
 }
 
@@ -163,7 +163,7 @@ class ReviewRoute extends GoRouteData with LoginRedirect {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ReviewScreen();
+    return const ReviewScreen();
   }
 }
 
@@ -175,7 +175,7 @@ class BillingSettingsRoute extends GoRouteData with LoginRedirect {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return BillingScreen();
+    return const BillingScreen();
   }
 }
 

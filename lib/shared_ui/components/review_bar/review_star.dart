@@ -4,8 +4,8 @@ import 'package:food_panda/extensions/theme.dart';
 ///Hình sao cho việc đánh giá, màu mặc định là [primary]
 ///khi kích hoạt và [shadow] khi không kích hoạt
 class ReviewStar extends StatelessWidget {
-  Color? activeColor;
-  Color? inactiveColor;
+  late final Color? activeColor;
+  late final Color? inactiveColor;
   final double active;
   final double size;
 
@@ -25,7 +25,7 @@ class ReviewStar extends StatelessWidget {
             colors: [activeColor!, activeColor!, inactiveColor!, inactiveColor!],
             stops: [0, active.clamp(0, 1), active.clamp(0,1), 1]
           ),
-          shape: StarBorder(
+          shape: const StarBorder(
             pointRounding: 0.5
           )),
     );
