@@ -29,6 +29,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     lastStateCommit = state.copyWith();
     try {
       emit(state.copyWith(isLoading: true));
+      _searchRepo.addToHistory(state.keyword);
       final result = await _searchRepo.search(state.keyword, limit: _limit, offset: state.menu.length) ?? [];
       final searchStatus = result.length < _limit ? SearchResultStatus.done : SearchResultStatus.partial;
       emit(state.addToMenu(result, searchStatus));

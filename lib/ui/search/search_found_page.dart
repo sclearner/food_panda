@@ -84,38 +84,39 @@ class _SearchFoundPageState extends State<SearchFoundPage> {
                 SliverToBoxAdapter(
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    height: 165,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     color: context.colorScheme.secondary,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton.icon(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                                foregroundColor:
-                                context.colorScheme.onSecondary),
-                            icon: Icon(AppIcons.filter),
-                            label: Text("Filter")),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<SearchViewCubit>()
-                                      .changeTo(SearchViewMode.grid);
-                                },
-                                icon: Icon(AppIcons.grid)),
-                            IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<SearchViewCubit>()
-                                      .changeTo(SearchViewMode.list);
-                                },
-                                icon: Icon(AppIcons.list))
-                          ],
-                        )
-                      ],
+                    child: SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton.icon(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                  foregroundColor:
+                                  context.colorScheme.onSecondary),
+                              icon: Icon(AppIcons.filter),
+                              label: Text("Filter")),
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<SearchViewCubit>()
+                                        .changeTo(SearchViewMode.grid);
+                                  },
+                                  icon: Icon(AppIcons.grid)),
+                              IconButton(
+                                  onPressed: () {
+                                    context
+                                        .read<SearchViewCubit>()
+                                        .changeTo(SearchViewMode.list);
+                                  },
+                                  icon: Icon(AppIcons.list))
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

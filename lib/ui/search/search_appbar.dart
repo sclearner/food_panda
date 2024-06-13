@@ -5,9 +5,9 @@ class SearchEditingAppBar extends StatelessWidget
   final BuildContext context;
   final List<String> tabLabels;
   final bool isCollapsed;
-  static const double collapsedHeight = 70;
+  static const double collapsedHeight = kToolbarHeight + 15;
   double get _collapsedHeight => SearchEditingAppBar.collapsedHeight;
-  final double _expandedHeight = 120;
+  final double _expandedHeight = 110;
 
   const SearchEditingAppBar({super.key, required this.context, required this.tabLabels, required this.isCollapsed});
 
@@ -50,17 +50,19 @@ class SearchEditingAppBar extends StatelessWidget
             color: context.colorScheme.primary,
           borderRadius: isEditing ? BorderRadius.zero : const BorderRadius.vertical(bottom: Radius.circular(30))
         ),
-        child: Column(
-          children: [
-            Container(
-              height: _collapsedHeight,
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  children: [Flexible(child: AppSearchBar()), ...actions],
+        child: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                height: _collapsedHeight,
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    children: [Flexible(child: AppSearchBar()), ...actions],
+                  ),
                 ),
-              ),
-            ...tabbar
-          ],
+              ...tabbar
+            ],
+          ),
         ),
       );
     });
@@ -72,45 +74,44 @@ class SearchEditingAppBar extends StatelessWidget
       .preferredSize;
 }
 
-class SearchAppbar extends AppBar {
-  final BuildContext context;
-  final List<String> tabLabels;
-
-  SearchAppbar({super.key, required this.context, required this.tabLabels})
-      : assert(tabLabels.isNotEmpty),
-        super(
-          toolbarHeight: 70,
-          surfaceTintColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          foregroundColor: context.colorScheme.onSurface,
-          title: AppSearchBar(),
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(75),
-              child: Stack(
-                children: [
-
-                  Container(
-                    height: 35,
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: context.colorScheme.primary,
-                        borderRadius: const BorderRadius.vertical(
-                            bottom: Radius.circular(30))),
-                    child: TabBar(
-                      tabAlignment: TabAlignment.fill,
-                      tabs: List.generate(
-                          tabLabels.length,
-                          (i) => Tab(
-                                iconMargin: EdgeInsets.zero,
-                                text: tabLabels[i],
-                              )),
-                    ),
-                  ),
-                ],
-              )),
-        );
-}
+// class SearchAppbar extends AppBar {
+//   final BuildContext context;
+//   final List<String> tabLabels;
+//
+//   SearchAppbar({super.key, required this.context, required this.tabLabels})
+//       : assert(tabLabels.isNotEmpty),
+//         super(
+//           toolbarHeight: 70,
+//           surfaceTintColor: Colors.transparent,
+//           automaticallyImplyLeading: false,
+//           foregroundColor: context.colorScheme.onSurface,
+//           title: AppSearchBar(),
+//           bottom: PreferredSize(
+//               preferredSize: const Size.fromHeight(75),
+//               child: Stack(
+//                 children: [
+//                   Container(
+//                     height: 35,
+//                     alignment: Alignment.topCenter,
+//                     padding: EdgeInsets.all(5),
+//                     decoration: BoxDecoration(
+//                         color: context.colorScheme.primary,
+//                         borderRadius: const BorderRadius.vertical(
+//                             bottom: Radius.circular(30))),
+//                     child: TabBar(
+//                       tabAlignment: TabAlignment.fill,
+//                       tabs: List.generate(
+//                           tabLabels.length,
+//                           (i) => Tab(
+//                                 iconMargin: EdgeInsets.zero,
+//                                 text: tabLabels[i],
+//                               )),
+//                     ),
+//                   ),
+//                 ],
+//               )),
+//         );
+// }
 
 class AppSearchBar extends StatefulWidget {
   @override
@@ -130,8 +131,11 @@ class _AppSearchBarState extends State<AppSearchBar> {
     _controller.addListener(() {
       bloc.add(SearchEditingKeyword(_controller.text));
     });
-    appbarCubit.stream.listen((state) {
+    appbarCubit.stream.listen((isEditing) {
       _controller.text = bloc.lastStateCommit.keyword;
+      if (!isEditing) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
     });
     super.initState();
   }
@@ -201,8 +205,9 @@ class _AppSearchBarState extends State<AppSearchBar> {
               bloc.add(SearchEditingKeyword(keyword));
               appbarCubit.edit();
             },
-            onSubmitted: (keyword) {
+            onSubmitted: (keyword) async {
               bloc.add(SearchRequest());
+              await Future.delayed(100.microseconds);
               appbarCubit.submit();
             },
           );

@@ -14,8 +14,6 @@ import 'package:food_panda/shared_ui/components/review_bar/review_bar.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 import 'package:food_panda/ui/product/product/product_cover_gallery.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 part 'product_details.dart';
 

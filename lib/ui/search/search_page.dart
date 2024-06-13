@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/blocs/search_appbar_cubit/search_appbar_cubit.dart';
 import 'package:food_panda/blocs/search_bloc/search_bloc.dart';

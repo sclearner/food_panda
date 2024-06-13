@@ -28,62 +28,67 @@ class HomeScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                   image: AssetImage(GraphicAssets.homeBackground))),
         ),
-        Container(
-            width: double.infinity,
-            height: double.infinity,
-            padding: const EdgeInsets.symmetric(
-                vertical: _verticalPadding, horizontal: 25),
-            color: AppColors.blackOverlay,
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  leading: Align(
-                    alignment: Alignment.center,
-                    child: UserAvatar(),
+        GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                  vertical: _verticalPadding, horizontal: 25),
+              color: AppColors.blackOverlay,
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: Colors.transparent,
+                    leading: Align(
+                      alignment: Alignment.center,
+                      child: UserAvatar(),
+                    ),
+                    title: BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) {
+                        return Text(
+                          "Hi, ${state.user.name}",
+                          style: context.textTheme.headlineSmall
+                              ?.copyWith(color: context.colorScheme.onPrimary),
+                        );
+                      }
+                    ),
                   ),
-                  title: BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return Text(
-                        "Hi, ${state.user.name}",
-                        style: context.textTheme.headlineSmall
-                            ?.copyWith(color: context.colorScheme.onPrimary),
-                      );
-                    }
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: context.height * 0.55 -
-                            kToolbarHeight -
-                            _verticalPadding,
-                        alignment: Alignment.centerLeft,
-                        child: Text("What can\nwe serve you\ntoday?",
-                            style: context.textTheme.displayLarge?.copyWith(
-                              color: context.colorScheme.onPrimary,
-                            )),
-                      ),
-                      Column(
-                        children: [
-                          HomeSearchBar(),
-                          const SizedBox(height: 15),
-                          FilledButton(
-                              onPressed: () {
-                                String keyword = context.read<SearchBloc>().state.keyword;
-                                if (keyword.isEmpty) return;
-                                context.read<SearchBloc>().add(SearchRequest());
-                                SearchRoute(keyword).push(context);
-                              }, child: const Text("SEARCH"))
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ))
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          height: context.height * 0.55 -
+                              kToolbarHeight -
+                              _verticalPadding,
+                          alignment: Alignment.centerLeft,
+                          child: Text("What can\nwe serve you\ntoday?",
+                              style: context.textTheme.displayLarge?.copyWith(
+                                color: context.colorScheme.onPrimary,
+                              )),
+                        ),
+                        Column(
+                          children: [
+                            HomeSearchBar(),
+                            const SizedBox(height: 15),
+                            FilledButton(
+                                onPressed: () {
+                                  String keyword = context.read<SearchBloc>().state.keyword;
+                                  if (keyword.isEmpty) return;
+                                  context.read<SearchBloc>().add(SearchRequest());
+                                  SearchRoute(keyword).push(context);
+                                }, child: const Text("SEARCH"))
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              )),
+        )
       ],
     );
   }
