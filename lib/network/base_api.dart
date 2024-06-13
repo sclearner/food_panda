@@ -14,8 +14,7 @@ final dio = Dio(BaseOptions(
 
 final _refreshTokenInterceptor = InterceptorsWrapper(
     onRequest: (options, handler) async {
-      print(options.path);
-      if (options.path.contains('auth')) return handler.next(options);
+            if (options.path.contains('auth')) return handler.next(options);
       String? accessToken = prefs.getString('accessToken');
       String? refreshToken = prefs.getString('refreshToken');
       if (refreshToken == null) {

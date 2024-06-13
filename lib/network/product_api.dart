@@ -10,8 +10,7 @@ class ProductApi {
     try {
       final response = await dio.getUri(Uri(pathSegments: ['', 'menu', id]));
       if (response.statusCode == 200 || response.statusCode == 206) {
-        print(response.data is Map<String, dynamic>);
-        Menu menu = Menu.fromJson(response.data);
+                Menu menu = Menu.fromJson(response.data);
         return menu;
       }
       return null;
@@ -21,8 +20,7 @@ class ProductApi {
       }
       rethrow;
     } catch (e) {
-      print(e);
-      rethrow;
+            rethrow;
     }
   }
 }

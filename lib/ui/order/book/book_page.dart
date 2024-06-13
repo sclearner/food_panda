@@ -52,8 +52,7 @@ class BookScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(7, (j) {
                     final date = _startDate.add(Duration(days: i * 7 + j));
-                    print(date.difference(DateTime.now()).inDays);
-                    return Expanded(
+                                        return Expanded(
                       child: DatePicker(
                           date: date,
                           isActive: date.weekday > 0 && date.weekday < 6,

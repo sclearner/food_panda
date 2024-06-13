@@ -40,7 +40,5 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   @override
   void onChange(Change<ProductState> change) {
     super.onChange(change);
-    print(change.currentState);
-    print(change.nextState);
-  }
+          }
 }

@@ -52,6 +52,5 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   void onChange(Change<SearchState> change) {
     super.onChange(change);
-    print(change);
-  }
+      }
 }
