@@ -34,7 +34,9 @@ class ProductMenu extends StatelessWidget {
         Column(children: [
             ..._addDivider(menuList(context).sublist(0, 3)),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  CategoriesRoute(productId: '1').push(context);
+                },
                 child: Center(
                     child: Text(
                   "View more",

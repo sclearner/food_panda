@@ -94,20 +94,44 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class HomeSearchBar extends StatelessWidget {
+class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({super.key});
 
   @override
+  State<HomeSearchBar> createState() => _HomeSearchBarState();
+}
+
+class _HomeSearchBarState extends State<HomeSearchBar> {
+  late TextEditingController _controller;
+
+  SearchBloc get bloc => context.read<SearchBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    _controller.addListener(() {
+        bloc.add(SearchEditingKeyword(_controller.text));
+    });
+    bloc.stream.listen((state) {
+      _controller.text = state.keyword;
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bloc = context.read<SearchBloc>();
     return BlocBuilder<SearchBloc, SearchState>(
         bloc: bloc,
         builder: (context, state) {
       return SearchBar(
+        controller: _controller,
         hintText: "Search for address, food, drink and more",
-        onChanged: (keyword) {
-          bloc.add(SearchEditingKeyword(keyword));
-        },
         onSubmitted: (keyword) {
           if (keyword.isEmpty) return;
           bloc.add(SearchRequest());

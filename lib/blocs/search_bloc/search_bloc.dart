@@ -48,4 +48,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   void _onSearchCancel(SearchCancel event, Emitter<SearchState> emit) {
     emit(lastStateCommit);
   }
+
+  @override
+  void onChange(Change<SearchState> change) {
+    super.onChange(change);
+    print(change);
+  }
 }

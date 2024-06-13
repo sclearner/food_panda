@@ -32,7 +32,7 @@ class ProductReview extends StatelessWidget {
             children: [
               Text("REVIEW"),
               TextButton(onPressed: () {
-
+                ReviewRoute(productId: '1').push(context);
               }, child: Text("See all reviews"))
             ],
           ),
