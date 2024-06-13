@@ -12,7 +12,7 @@ class UserAvatar extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state)
     {
-      dynamic image;
+      var image;
       if (state.user.avatarUrl != null) {
         image = NetworkImage(state.user.avatarUrl!);
       }

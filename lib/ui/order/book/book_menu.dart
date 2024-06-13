@@ -1,8 +1,6 @@
 part of 'book_page.dart';
 
 class BookMenu extends StatelessWidget {
-  const BookMenu({super.key});
-
   List<Widget> bookList(BuildContext context) => List.generate(
       10,
       (index) => Padding(
@@ -46,7 +44,7 @@ class BookMenu extends StatelessWidget {
     List<Widget> result = [];
     for (int i = 0; i < items.length; i++) {
       result.add(items[i]);
-      result.add(const Divider(
+      result.add(Divider(
         height: 4,
       ));
     }
@@ -56,7 +54,7 @@ class BookMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 10),
       child: Column(children: [
         ..._addDivider(bookList(context).sublist(0, 3)),
         TextButton(

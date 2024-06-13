@@ -3,7 +3,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BaseLocalStorage {
-  static late Isar instance;
+  static var instance;
 
   static Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();

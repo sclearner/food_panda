@@ -1,3 +1,4 @@
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'scheme.dart';
@@ -28,8 +29,8 @@ final appTheme = ThemeData(
         surfaceTintColor: MaterialStatePropertyAll(appColorScheme.surface),
         shape: MaterialStatePropertyAll(
             ContinuousRectangleBorder(borderRadius: BorderRadius.circular(16))),
-        constraints: const BoxConstraints(minHeight: 51),
-        padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
+        constraints: BoxConstraints(minHeight: 51),
+        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 10)),
         textStyle: MaterialStatePropertyAll(
             textTheme.bodyMedium?.copyWith(color: appColorScheme.onSurface)),
         hintStyle: MaterialStatePropertyAll(
@@ -39,11 +40,11 @@ final appTheme = ThemeData(
       indicatorColor: Colors.transparent,
       dividerColor: Colors.transparent,
       labelColor: appColorScheme.onPrimary,
-      labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+      labelStyle: TextStyle(fontWeight: FontWeight.w700),
       unselectedLabelColor: appColorScheme.onPrimary,
     ),
     iconTheme: IconThemeData(color: appColorScheme.onPrimary),
-    cardTheme: const CardTheme(
+    cardTheme: CardTheme(
       elevation: 2,
     ),
     appBarTheme: AppBarTheme(
@@ -54,7 +55,7 @@ final appTheme = ThemeData(
       titleTextStyle: textTheme.titleMedium,
       textColor: appColorScheme.onSurface,
     ),
-    checkboxTheme: const CheckboxThemeData(shape: CircleBorder()),
+    checkboxTheme: CheckboxThemeData(shape: CircleBorder()),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,

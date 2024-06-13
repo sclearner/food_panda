@@ -24,9 +24,9 @@ class CategoriesScreen extends StatelessWidget {
               stretch: true,
               backgroundColor: context.colorScheme.primary,
               actions: [
-                IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.search))
+                IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.search))
               ],
-              title: const Text("ALL CATEGORIES"),
+              title: Text("ALL CATEGORIES"),
               centerTitle: true,
               bottom: PreferredSize(
                   preferredSize: const Size.fromHeight(60),
@@ -47,13 +47,13 @@ class CategoriesScreen extends StatelessWidget {
             ),
 
             SliverPadding(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               sliver: SliverList.separated(
                 itemBuilder: (context, i) => Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: const DishBar()),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    child: DishBar()),
                 separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
+                    Divider(),
               ),
             ),
           ],

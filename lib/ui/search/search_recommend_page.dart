@@ -25,9 +25,8 @@ class SearchRecommendPage extends StatelessWidget {
               FutureBuilder(
                   future: context.read<SearchRepo>().getSearchHistory(5),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    }
+                    if (snapshot.connectionState == ConnectionState.waiting)
+                      return CircularProgressIndicator();
                     return ListView(
                       shrinkWrap: true,
                       children: snapshot.requireData
@@ -35,11 +34,10 @@ class SearchRecommendPage extends StatelessWidget {
                               onTap: () async {
                                 final bloc = context.read<SearchBloc>();
                                 bloc.add(SearchEditingKeyword(e));
-                                bloc.add(const SearchRequest());
+                                bloc.add(SearchRequest());
                                 await Future.delayed(100.ms);
-                                if (context.mounted) {
+                                if (context.mounted)
                                   context.read<SearchAppbarCubit>().submit();
-                                }
                               },
                               child: Text(
                                 e,
@@ -56,14 +54,14 @@ class SearchRecommendPage extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, i) => Row(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
                         child: FlutterLogo(),
                       ),
                       ProductDetail(),
                     ],
                   ),
-                  separatorBuilder: (context, i) => const Divider(),
+                  separatorBuilder: (context, i) => Divider(),
                   itemCount: 3)
             ],
           ),

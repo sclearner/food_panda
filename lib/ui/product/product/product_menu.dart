@@ -1,12 +1,10 @@
 part of 'product_page.dart';
 
 class ProductMenu extends StatelessWidget {
-  const ProductMenu({super.key});
-
   List<Widget> menuList(BuildContext context) => List.generate(
       10,
-      (index) => const Padding(
-            padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+      (index) => Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
             child: DishBar()
           ));
 
@@ -14,7 +12,7 @@ class ProductMenu extends StatelessWidget {
     List<Widget> result = [];
     for (int i = 0; i < items.length; i++) {
       result.add(items[i]);
-      result.add(const Divider(
+      result.add(Divider(
         height: 4,
       ));
     }
@@ -25,19 +23,19 @@ class ProductMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
+        Padding(padding: EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            const Text("MENU"),
-            TextButton(onPressed: () {}, child: const Text("See all categories"))
+            Text("MENU"),
+            TextButton(onPressed: () {}, child: Text("See all categories"))
           ],),
         ),
         Column(children: [
             ..._addDivider(menuList(context).sublist(0, 3)),
             TextButton(
                 onPressed: () {
-                  const CategoriesRoute(productId: '1').push(context);
+                  CategoriesRoute(productId: '1').push(context);
                 },
                 child: Center(
                     child: Text(

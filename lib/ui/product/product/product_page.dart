@@ -72,14 +72,14 @@ class ProductScreen extends StatelessWidget {
                       ),
 
                       ///Details
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                           child: Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: ProductScreenDetails(),
                       )),
 
                       /// Photos Gallery
-                      const SliverToBoxAdapter(child: ProductPhotoGallery()),
+                      SliverToBoxAdapter(child: ProductPhotoGallery()),
 
                       /// Mô tả (không có sẵn)
                       SliverToBoxAdapter(
@@ -87,17 +87,17 @@ class ProductScreen extends StatelessWidget {
                       ),
 
                       /// Menu
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                         child: ProductMenu(),
                       ),
 
                       ///Review
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                         child: ProductReview(),
                       ),
 
                       ///End of page
-                      const SliverToBoxAdapter(
+                      SliverToBoxAdapter(
                           child: SizedBox(
                         height: 54,
                       ))
@@ -109,8 +109,8 @@ class ProductScreen extends StatelessWidget {
             onPressed: () {
               BookRoute(productId: productId).push(context);
             },
-            style: FilledButton.styleFrom(fixedSize: const Size.fromHeight(54)),
-            child: const Center(
+            style: FilledButton.styleFrom(fixedSize: Size.fromHeight(54)),
+            child: Center(
               child: Text("BOOK A TABLE"),
             ),
           ),

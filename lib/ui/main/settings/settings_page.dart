@@ -13,8 +13,6 @@ import 'package:go_router/go_router.dart';
 
 ///Trang settings của ứng dụng
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
-
   List<Widget> _settingsListTiles(BuildContext context) => [
         ListTile(
           onTap: () {
@@ -39,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
           title: const Text("Payment method"),
           trailing: const Icon(Icons.arrow_forward_ios),
         ),
-        const ListTile(
+        ListTile(
           leading: CircleAvatar(
             backgroundColor: AppColors.orange,
             radius: 47 / 2,
@@ -48,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
           title: Text("Reward credits"),
           trailing: Icon(Icons.arrow_forward_ios),
         ),
-        const ListTile(
+        ListTile(
           leading: CircleAvatar(
             backgroundColor: AppColors.sun,
             radius: 47 / 2,
@@ -57,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
           title: Text("Settings"),
           trailing: Icon(Icons.arrow_forward_ios),
         ),
-        const ListTile(
+        ListTile(
           leading: CircleAvatar(
             backgroundColor: AppColors.diamond,
             radius: 47 / 2,
@@ -119,7 +117,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               ..._settingsListTiles(context),
-              const Center(
+              Center(
                 child: SignOutButton(),
               )
             ],
@@ -131,8 +129,6 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class SignOutButton extends StatelessWidget {
-  const SignOutButton({super.key});
-
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -164,9 +160,9 @@ class SignOutButton extends StatelessWidget {
                           context.read<AuthRepo>().logOut();
                         },
                         child:
-                            isOk ? const CircularProgressIndicator() : const Text("OK")),
+                            isOk ? CircularProgressIndicator() : Text("OK")),
                     isOk
-                        ? const SizedBox()
+                        ? SizedBox()
                         : TextButton(
                             onPressed: () {
                               context.pop();

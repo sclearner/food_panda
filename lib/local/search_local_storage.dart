@@ -12,9 +12,8 @@ class SearchLocalStorage {
   Future<void> addToHistory(String word) async {
     await baseLocalStorage.writeTxn(() async {
       final exist = await baseLocalStorage.searchWords.filter().wordEqualTo(word).findFirst();
-      if (exist == null) {
-        await baseLocalStorage.searchWords.put(SearchWord(word));
-      } else {
+      if (exist == null) await baseLocalStorage.searchWords.put(SearchWord(word));
+      else {
         exist.lastSearch = DateTime.now();
         baseLocalStorage.searchWords.put(exist);
       }

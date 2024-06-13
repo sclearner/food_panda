@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/ui/splash/splash_page.dart';
 
 class SplashRoute {
-  static final _splashRoute = MaterialPageRoute(builder: (context) => const SplashScreen());
+  static final _splashRoute = MaterialPageRoute(builder: (context) => SplashScreen());
 
   static void show(BuildContext context) {
     Navigator.of(context).push(_splashRoute);

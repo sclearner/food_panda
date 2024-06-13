@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,5 +52,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   void onChange(Change<SearchState> change) {
     super.onChange(change);
+    print(change);
   }
 }

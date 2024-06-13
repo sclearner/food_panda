@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/theme.dart';
+import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/components/product_card/product_card.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -16,16 +17,16 @@ class FavoritesScreen extends StatelessWidget {
             leading:
                 IconButton(onPressed: () {
 
-                }, icon: const Icon(CupertinoIcons.search)),
-            title: const Text("FAVORITES"),
+                }, icon: Icon(CupertinoIcons.search)),
+            title: Text("FAVORITES"),
             centerTitle: true,
           ),
           SliverPadding(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate((context, i) => Container(
                   height: 295,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   child: ProductCard())),
             ),
           )

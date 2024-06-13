@@ -50,13 +50,13 @@ class TimePicker extends StatelessWidget {
   final bool isActive;
   final String time;
 
-  const TimePicker({super.key, this.isActive = false, required this.time});
+  TimePicker({super.key, this.isActive = false, required this.time});
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: FilledButton(
           onPressed: () {},
           style: FilledButton.styleFrom(

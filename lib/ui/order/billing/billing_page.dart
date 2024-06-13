@@ -8,13 +8,11 @@ import 'package:food_panda/shared_ui/assets/icons.dart';
 import 'package:food_panda/shared_ui/assets/logo.dart';
 
 class BillingScreen extends StatelessWidget {
-  const BillingScreen({super.key});
-
   List<Widget> _addDivider(List<Widget> items) {
     List<Widget> result = [];
     for (int i = 0; i < items.length - 1; i++) {
       result.add(items[i]);
-      result.add(const Divider());
+      result.add(Divider());
     }
     result.add(items.last);
     return result;
@@ -25,7 +23,7 @@ class BillingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(title: const Text("PAYMENT METHOD"), centerTitle: true),
+      appBar: AppBar(title: Text("PAYMENT METHOD"), centerTitle: true),
       body: SingleChildScrollView(
         child: ConstrainedBox(
           constraints:
@@ -37,8 +35,8 @@ class BillingScreen extends StatelessWidget {
               ///Thêm thẻ ngân hàng
               Container(
                 height: 57,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-                margin: const EdgeInsets.symmetric(vertical: 25),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                margin: EdgeInsets.symmetric(vertical: 25),
                 color: context.colorScheme.surface,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -47,7 +45,7 @@ class BillingScreen extends StatelessWidget {
                       AppIcons.wallet,
                       color: context.colorScheme.primary,
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     Expanded(
                         child: Text("Add a new card",
                             style:

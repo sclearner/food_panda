@@ -44,7 +44,7 @@ class AuthApi {
         return response.data;
       }
       return null;
-    } on DioException {
+    } on DioException catch (e) {
       rethrow;
     } catch (e) {
       rethrow;

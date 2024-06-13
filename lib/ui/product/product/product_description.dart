@@ -1,13 +1,32 @@
 part of 'product_page.dart';
 
-// ignore: must_be_immutable
 class ProductDescription extends StatelessWidget {
-  ProductDescription({super.key});
-
   bool _isFull = false;
   final int _lengthLimit = 200;
 
   link(lat, long) => 'https://maps.google.com/maps?q=$lat,$long';
+  //
+  // controller(double lat, double long) =>
+  //     WebViewController()
+  //       ..setJavaScriptMode(JavaScriptMode.unrestricted)
+  //       ..setBackgroundColor(const Color(0x00000000))
+  //       ..setNavigationDelegate(
+  //         NavigationDelegate(
+  //             onProgress: (int progress) {
+  //               // Update loading bar.
+  //             },
+  //             onPageStarted: (String url) {},
+  //           onPageFinished: (String url) {},
+  //           onWebResourceError: (WebResourceError error) {},
+  //           onNavigationRequest: (NavigationRequest request) {
+  //             if (request.url.startsWith('https://www.youtube.com/')) {
+  //               return NavigationDecision.prevent;
+  //             }
+  //             return NavigationDecision.navigate;
+  //           },
+  //         ),
+  //       )
+  //       ..loadRequest(Uri.parse(link(lat, long)));
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +39,7 @@ class ProductDescription extends StatelessWidget {
           width: double.infinity,
           child: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
-              if (state.menu?.latitude == null) return const SizedBox();
+              if (state.menu?.latitude == null) return SizedBox();
               final position =
                   LatLng(state.menu!.latitude!, state.menu!.longitude!);
               return FlutterMap(
@@ -51,14 +70,12 @@ class ProductDescription extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text("DESCRIPTION"),
+              Text("DESCRIPTION"),
               BlocBuilder<ProductBloc, ProductState>(builder: (context, state) {
-                if (state.menu?.description == null) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state.menu!.description!.length <= _lengthLimit) {
+                if (state.menu?.description == null)
+                  return Center(child: CircularProgressIndicator());
+                if (state.menu!.description!.length <= _lengthLimit)
                   _isFull = true;
-                }
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: StatefulBuilder(builder: (context, setState) {

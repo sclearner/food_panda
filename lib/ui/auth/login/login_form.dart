@@ -83,31 +83,26 @@ class _LoginFormState extends State<LoginForm>
                         child: Builder(builder: (context) {
                           if (state.status == LoginStatus.waiting) {
                             return FutureBuilder(
-                                future: Future.delayed(5.seconds)
-                                    .then((value) => 1),
-                                builder: (context, snapshot) {
-                                  List<Widget> longerThanUsual = (snapshot
-                                          .hasData)
-                                      ? [
-                                          const SizedBox(height: 10, width: 10),
-                                          const Text(
-                                              "Login is longer than usual."),
-                                        ]
-                                      : [];
-                                  return OverflowBar(
-                                    children: [
-                                      CircularProgressIndicator(
-                                        color: context.colorScheme.onPrimary,
-                                      ),
-                                      ...longerThanUsual
-                                    ],
-                                  );
-                                });
-                          } else if (state.status == LoginStatus.success) {
+                              future: Future.delayed(5.seconds).then((value) => 1),
+                              builder: (context, snapshot) {
+                                List<Widget> longerThanUsual = (snapshot.hasData) ? [
+                                  const SizedBox(height: 10, width: 10),
+                                  const Text("Login is longer than usual."),
+                                ] : [];
+                                return OverflowBar(
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: context.colorScheme.onPrimary,
+                                    ),
+                                    ...longerThanUsual
+                                  ],
+                                );
+                              }
+                            );
+                          } else if (state.status == LoginStatus.success)
                             return const Center(child: Icon(Icons.check));
-                          } else {
+                          else
                             return const Text("LOGIN");
-                          }
                         }),
                       );
                     }),
@@ -153,7 +148,7 @@ mixin class UsernameStateBuilder {
     return StatefulBuilder(builder: (context, _) {
       return TextFormField(
           enabled: state.status != LoginStatus.waiting,
-          key: const ValueKey("login_username_field"),
+          key: ValueKey("login_username_field"),
           controller: _usernameController,
           style: const TextStyle(color: AppColors.white),
           focusNode: _usernameNode,
@@ -162,9 +157,8 @@ mixin class UsernameStateBuilder {
           keyboardType: TextInputType.name,
           autofillHints: const [AutofillHints.username],
           onTapOutside: (_) {
-            if (state.status != LoginStatus.waiting) {
+            if (state.status != LoginStatus.waiting)
               context.read<LoginBloc>().add(const LoginValidated());
-            }
             _usernameNode.unfocus();
           },
           textInputAction: TextInputAction.next,
@@ -195,7 +189,7 @@ mixin class PasswordStateBuilder {
         .map((e) => e.message);
     return StatefulBuilder(builder: (context, setState) {
       return TextFormField(
-          key: const ValueKey("login_password_field"),
+          key: ValueKey("login_password_field"),
           controller: _passwordController,
           enabled: state.status != LoginStatus.waiting,
           style: const TextStyle(color: AppColors.white),
@@ -208,9 +202,8 @@ mixin class PasswordStateBuilder {
           keyboardType: TextInputType.visiblePassword,
           autofillHints: const [AutofillHints.password],
           onTapOutside: (_) {
-            if (state.status != LoginStatus.waiting) {
+            if (state.status != LoginStatus.waiting)
               context.read<LoginBloc>().add(const LoginValidated());
-            }
             _passwordNode.unfocus();
           },
           onFieldSubmitted: (password) {

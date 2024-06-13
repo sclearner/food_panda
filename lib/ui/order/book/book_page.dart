@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/routes/router.dart';
+import 'package:food_panda/ui/order/success/order_success_page.dart';
 import 'package:intl/intl.dart';
 
 part 'date_picker.dart';
@@ -32,7 +33,7 @@ class BookScreen extends StatelessWidget {
         slivers: [
           ///AppBar
           SliverAppBar(
-            title: const Text("BOOK A TABLE"),
+            title: Text("BOOK A TABLE"),
             centerTitle: true,
             backgroundColor: Colors.transparent,
             foregroundColor: context.colorScheme.onSurface,
@@ -51,6 +52,7 @@ class BookScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(7, (j) {
                     final date = _startDate.add(Duration(days: i * 7 + j));
+                    print(date.difference(DateTime.now()).inDays);
                     return Expanded(
                       child: DatePicker(
                           date: date,
@@ -64,7 +66,7 @@ class BookScreen extends StatelessWidget {
           )),
 
           ///Dải phân cách
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Divider(),
           ),
 
@@ -89,13 +91,13 @@ class BookScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: Container(
               height: 120,
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20),
               margin: const EdgeInsets.symmetric(vertical: 10),
               decoration:
                   BoxDecoration(color: context.colorScheme.surface, boxShadow: [
                 BoxShadow(
                     color: context.colorScheme.shadow.withOpacity(0.3),
-                    offset: const Offset(0, 4),
+                    offset: Offset(0, 4),
                     blurRadius: 12)
               ]),
               child: Column(
@@ -116,7 +118,7 @@ class BookScreen extends StatelessWidget {
                             "2 Adults, 3 Children",
                             style: context.textTheme.labelMedium,
                           ),
-                          const Icon(CupertinoIcons.forward)
+                          Icon(CupertinoIcons.forward)
                         ],
                       )
                     ],
@@ -148,7 +150,7 @@ class BookScreen extends StatelessWidget {
                       style: labelTextTheme,
                     ),
                   ),
-                  const BookMenu()
+                  BookMenu()
                 ],
               ),
             ),
@@ -179,8 +181,8 @@ class BookScreen extends StatelessWidget {
                   Text("ORDER",
                       style: context.textTheme.titleLarge
                           ?.copyWith(color: context.colorScheme.onPrimary)),
-                  const SizedBox(width: 5),
-                  const Icon(Icons.arrow_forward)
+                  SizedBox(width: 5),
+                  Icon(Icons.arrow_forward)
                 ],
               ),
             )

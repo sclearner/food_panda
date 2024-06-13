@@ -5,8 +5,8 @@ class ProductReview extends StatelessWidget {
 
   List<Widget> reviewList(BuildContext context) => List.generate(
       10,
-      (index) => const Padding(
-        padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+      (index) => Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
         child: ReviewBar(),
       ));
 
@@ -14,7 +14,7 @@ class ProductReview extends StatelessWidget {
     List<Widget> result = [];
     for (int i = 0; i < items.length; i++) {
       result.add(items[i]);
-      result.add(const Divider(
+      result.add(Divider(
         height: 4,
       ));
     }
@@ -26,14 +26,14 @@ class ProductReview extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("REVIEW"),
+              Text("REVIEW"),
               TextButton(onPressed: () {
-                const ReviewRoute(productId: '1').push(context);
-              }, child: const Text("See all reviews"))
+                ReviewRoute(productId: '1').push(context);
+              }, child: Text("See all reviews"))
             ],
           ),
         ),
