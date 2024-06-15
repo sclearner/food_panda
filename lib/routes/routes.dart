@@ -14,6 +14,16 @@ class LoginRoute extends GoRouteData with LoginReverseRedirect {
   }
 }
 
+@TypedGoRoute<SignUpRoute>(path: '/signup')
+class SignUpRoute extends GoRouteData with LoginReverseRedirect {
+  static final NavigatorKey $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const SignUpScreen();
+  }
+}
+
 @TypedStatefulShellRoute<MainRoute>(branches: [
   TypedStatefulShellBranch(routes: [TypedGoRoute<HomeRoute>(path: '/home')]),
   TypedStatefulShellBranch(

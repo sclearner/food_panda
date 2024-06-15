@@ -1,10 +1,15 @@
+import 'package:equatable/equatable.dart';
+
 enum LoginExceptionCause { username, password, network }
 
-class LoginException implements Exception {
+class LoginException extends Equatable implements Exception {
   final LoginExceptionCause cause;
   final String message;
 
   const LoginException(this.cause, this.message);
+
+  @override
+  List<Object?> get props => [cause, message];
 }
 
 abstract class LoginExceptions {

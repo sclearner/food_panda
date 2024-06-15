@@ -31,18 +31,18 @@ class AdditionalFunction extends StatelessWidget with AdditionalFunctions {
           overflowAlignment: OverflowBarAlignment.center,
           children: [
             const Text(
-              "Don't have an account? ",
+              "Have an account?",
               style: TextStyle(color: AppColors.white),
             ),
             TextButton(
                 onPressed: () {
-                  SignUpRoute().go(context);
+                  LoginRoute().go(context);
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   splashFactory: NoSplash.splashFactory,
                 ),
-                child: Text("Sign up"))
+                child: Text("Login"))
           ],
         ),
       )

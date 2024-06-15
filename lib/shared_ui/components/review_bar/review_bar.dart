@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:food_panda/shared_ui/components/photo_gallery/photo_gallery.dart';
 import 'package:food_panda/shared_ui/components/review_bar/review_star_bar.dart';

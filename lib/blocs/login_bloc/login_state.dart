@@ -36,6 +36,9 @@ class LoginState extends Equatable {
   }
 
   LoginState addExceptions(LoginException exception) {
+    if (exceptions.any((e) => e == exception)) {
+      return this;
+    }
     return copyWith(exceptions: [...exceptions, exception]);
   }
 
@@ -49,5 +52,5 @@ class LoginState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, username, password];
+  List<Object?> get props => [status, username, password, exceptions];
 }

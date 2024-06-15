@@ -4,7 +4,6 @@ import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/routes/router.dart';
 import 'package:food_panda/shared_ui/assets/graphic.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
-import 'package:go_router/go_router.dart';
 
 class OrderSuccessScreen extends Page<Widget> {
   OrderSuccessScreen({super.key});

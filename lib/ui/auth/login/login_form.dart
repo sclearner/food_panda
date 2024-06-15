@@ -10,7 +10,7 @@ class LoginForm extends StatefulWidget with LoginFormFunctions {
 }
 
 class _LoginFormState extends State<LoginForm>
-    with LoginFormFunctions, UsernameStateBuilder, PasswordStateBuilder {
+    with LoginFormFunctions, _UsernameStateBuilder, _PasswordStateBuilder {
   @override
   void initState() {
     _usernameController = TextEditingController();
@@ -130,7 +130,7 @@ mixin LoginFormFunctions {
   }
 }
 
-mixin class UsernameStateBuilder {
+mixin class _UsernameStateBuilder {
   late final TextEditingController _usernameController;
   final FocusNode _usernameNode = FocusNode();
 
@@ -159,7 +159,7 @@ mixin class UsernameStateBuilder {
           onTapOutside: (_) {
             if (state.status != LoginStatus.waiting)
               context.read<LoginBloc>().add(const LoginValidated());
-            _usernameNode.unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           textInputAction: TextInputAction.next,
           decoration: _decoration(context.colorScheme).copyWith(
@@ -171,7 +171,7 @@ mixin class UsernameStateBuilder {
   }
 }
 
-mixin class PasswordStateBuilder {
+mixin class _PasswordStateBuilder {
   final FocusNode _passwordNode = FocusNode();
   late final TextEditingController _passwordController;
   bool _isShowPassword = false;
@@ -204,7 +204,7 @@ mixin class PasswordStateBuilder {
           onTapOutside: (_) {
             if (state.status != LoginStatus.waiting)
               context.read<LoginBloc>().add(const LoginValidated());
-            _passwordNode.unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
           },
           onFieldSubmitted: (password) {
             context.read<LoginBloc>().add(const LoginValidated());

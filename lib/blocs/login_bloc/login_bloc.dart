@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/exceptions/auth_exception.dart';
 import 'package:food_panda/exceptions/login_exception.dart';
@@ -84,7 +85,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   void onChange(Change<LoginState> change) {
     super.onChange(change);
-    print(
-        "State: ${change.nextState.status}\n\tusername: ${change.nextState.username}\n\tpassword: ${change.nextState.password}\n\texception: ${change.nextState.exceptions.length}\n");
+    if (kDebugMode) print(change);
   }
 }

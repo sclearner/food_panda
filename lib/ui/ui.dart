@@ -1,4 +1,5 @@
 export 'package:food_panda/ui/auth/login/login_page.dart';
+export 'package:food_panda/ui/auth/sign_up/sign_up_page.dart';
 export 'package:food_panda/ui/main/history/history_page.dart';
 export 'package:food_panda/ui/order/billing/billing_page.dart';
 export 'package:food_panda/ui/order/book/book_page.dart';

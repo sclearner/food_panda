@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:food_panda/models/dish.dart';
 import 'package:json_annotation/json_annotation.dart';
 

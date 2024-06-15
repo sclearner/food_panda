@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:dio/dio.dart';
 import 'package:food_panda/exceptions/auth_exception.dart';
 import 'package:food_panda/models/user.dart';

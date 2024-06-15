@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/routes/router.dart';
-import 'package:food_panda/ui/order/success/order_success_page.dart';
 import 'package:intl/intl.dart';
 
 part 'date_picker.dart';

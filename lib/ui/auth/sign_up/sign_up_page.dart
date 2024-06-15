@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_panda/blocs/auth_bloc/auth_bloc.dart';
-import 'package:food_panda/blocs/login_bloc/login_bloc.dart';
-import 'package:food_panda/exceptions/login_exception.dart';
+import 'package:food_panda/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:food_panda/exceptions/sign_up_exception.dart';
 import 'package:food_panda/extensions/media_query.dart';
 import 'package:food_panda/extensions/theme.dart';
 import 'package:food_panda/repositories/auth_repo.dart';
@@ -16,15 +16,17 @@ import 'package:food_panda/shared_ui/assets/logo.dart';
 import 'package:food_panda/shared_ui/theme/colors.dart';
 
 import 'additional_function.dart';
-part 'login_form.dart';
+part 'sign_up_form.dart';
+part 'sign_up_field_builder.dart';
+
 ///Màn hình đăng nhập của ứng dụng
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginBloc(authRepo: RepositoryProvider.of(context)),
+      create: (context) => SignUpBloc(authRepo: RepositoryProvider.of(context)),
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
@@ -48,21 +50,22 @@ class LoginScreen extends StatelessWidget {
               height: double.infinity,
               color: AppColors.black.withOpacity(0.5),
               child: SingleChildScrollView(
-                  child: Container(
-                height: context.height,
-                padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                  child: Column(
                   children: [
-                    Expanded(child: Image.asset(LogoAssets.original)),
-                    Expanded(child: LoginForm()),
-                    Expanded(
-                        child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: AdditionalFunction()))
+                    Image.asset(LogoAssets.original),
+                    SignUpForm(),
+                    SafeArea(
+                      child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: AdditionalFunction()),
+                    ),
+                    SizedBox(height: 200)
                   ],
                 ),
-              )),
+                ),
+              ),
             )
           ],
         ),
