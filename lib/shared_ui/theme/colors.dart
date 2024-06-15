@@ -13,6 +13,7 @@ abstract class AppColors {
   static const Color platinum = Color(0xFFE5E5E5);
   static const Color white = Color(0xFFFFFFFF);
   static const Color snow = Color(0xFFFCF9F9);
+  static const Color overlay = Color(0xFF5F5F5F);
   static const Color viettelRed = Color(0xFFEE0033);
   static const Color blue = Color(0xFF2B65D1);
   static const Color water = Color(0xFF4C8DE7);

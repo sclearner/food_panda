@@ -9,7 +9,11 @@ const textTheme = TextTheme(
         letterSpacing: -0.32,
         height: 61 / 40,
         fontWeight: FontWeight.w900),
-    displayMedium: TextStyle(),
+    displayMedium: TextStyle(
+        fontFamily: 'Roboto',
+        fontSize: 36,
+        fontWeight: FontWeight.w500
+    ),
     displaySmall: TextStyle(),
     headlineLarge: TextStyle(
       fontSize: 24,

@@ -153,6 +153,11 @@ class BillingRoute extends GoRouteData with LoginRedirect {
   Widget build(BuildContext context, GoRouterState state) {
     return BillingScreen();
   }
+
+  @override
+  Page<Widget> buildPage(BuildContext context, GoRouterState state) {
+    return OrderSuccessScreen();
+  }
 }
 
 class ReviewRoute extends GoRouteData with LoginRedirect {
